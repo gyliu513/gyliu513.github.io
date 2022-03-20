@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "3 factors for successful open source contributions"
+title:  "3 Factors for Successful Open Source Contributions"
 date:   2019-05-15 23:17:10 -0400
 categories: jekyll update
 tag: open source contributions
@@ -10,7 +10,7 @@ tag: open source contributions
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [3 factors for successful open source contributions](#3-factors-for-successful-open-source-contributions)
+- [3 Factors for Successful Open Source Contributions](#3-factors-for-successful-open-source-contributions)
   - [My open source credentials and perspective](#my-open-source-credentials-and-perspective)
   - [Evaluating open source projects](#evaluating-open-source-projects)
     - [Ecosystem](#ecosystem)
@@ -23,7 +23,7 @@ tag: open source contributions
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 3 factors for successful open source contributions
+# 3 Factors for Successful Open Source Contributions
 
 [Open source software is eating the world](https://landscape.cncf.io/images/landscape.png), with numerous projects that cover a breadth of technologies, from IaaS to PaaS to CaaS to Serverless, AI, and more.
 
