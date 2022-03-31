@@ -61,6 +61,6 @@ You can treat GitOps as a bootstrap engine for Kubernetes and leverage GitOps to
 
 ![w](/images/argo-boot-strap.png)
 
-At IBM, we recently released [using GitOps to deploy IBM Cloud Pak for Watson AIOps 3.3 as a technical preview feature](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.0?topic=notes-whats-new#preview). GitOps helped a lot to simplify the installation process for the Cloud Pak. We were able to leverage GitOps to help us deploy the IBM Cloud into Cloud, and on-prem even in the air-gapped cluster. If you’re interested in learning more, see https://ibm.github.io/cp4waiops-gitops/docs/. Good luck!
+At IBM, we recently released [using GitOps to deploy IBM Cloud Pak for Watson AIOps 3.3 as a technical preview feature](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.0?topic=notes-whats-new#preview). GitOps helped a lot to simplify the installation process for the Cloud Pak. We were able to leverage GitOps to help us deploy the IBM Cloud into Cloud, and on-prem even in the air-gapped cluster. If you’re interested in learning more, see [https://ibm.github.io/cp4waiops-gitops/docs/](https://ibm.github.io/cp4waiops-gitops/docs/). Good luck!
 
 ![w](/images/argo-cloud-pak.png)
