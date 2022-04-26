@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Using Ansible Tower Connector for Incident Management"
-date:   2022-04-26 15:17:10 -0400
+date:   2022-04-25 15:17:10 -0400
 categories: jekyll update
 tag: Ansible
 ---
