@@ -53,7 +53,7 @@ Integrating ChatGPT with Slack is a straightforward process. Here's how to do it
 
 ### Pre-Req
 
-f you don’t have Python installed, [install it from here](https://www.python.org/downloads/). Then prepare one file `requirements.txt` as follows.
+If you don’t have Python installed, [install it from here](https://www.python.org/downloads/). Then prepare one file `requirements.txt` as follows.
 
 - requirements.txt
 
