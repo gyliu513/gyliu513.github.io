@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Langflow Quick Start"
+title:  "LangFlow Quick Start"
 date:   2023-08-23 08:17:10 -0400
 categories: jekyll update
 tag: langflow
