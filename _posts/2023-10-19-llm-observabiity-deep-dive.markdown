@@ -98,7 +98,7 @@ But for [Dynatrace](https://www.dynatrace.com/) and [Datadog](https://www.datado
 | LangFlow Support | Yes |No |No |No |No |
 | Flowise Support | Yes |NA |No |No |No |
 | LiteLLM Support | Yes |No |No |No |No |
-| OpenAI Support | No |NA |Yes |Yes |Yes |
+| OpenAI Support | Yes |NA |Yes |Yes |Yes |
 | Request Application Code Change for Observability | Yes |Yes |Yes |Yes |Yes |
 
 NOTE: If you want to enable LLM Observability for your LLM Apps, you will need to make some code change to your LLM Apps to adapt the different LLM Observability tools, this seems to be a major problem for most of the LLM Observability tool now.
