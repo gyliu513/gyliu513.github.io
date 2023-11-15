@@ -136,6 +136,7 @@ You may want to pay attentision to the following three parts in the code:
 - Tracer Wrapper
   - `_with_tracer_wrapper`: A decorator function that provides a tracer for wrapper functions.
   - `_wrap`: This function is used to instrument and call every function defined in `TO_WRAP`. It starts a span, sets various attributes, calls the wrapped function, and then ends the span.
+
 ```python
 def _with_tracer_wrapper(func):
     """Helper for providing tracer for wrapper functions."""
@@ -175,9 +176,11 @@ def _wrap(tracer, to_wrap, wrapped, instance, args, kwargs):
     span.end()
     return response
 ```
+
 - WatsonxInstrumentor Class
   - Inherits from `BaseInstrumentor`.
   - Implements `_instrument` and `_uninstrument` methods to add and remove instrumentation from the WatsonX library.
+
 ```python
 class WatsonxInstrumentor(BaseInstrumentor):
     """An instrumentor for Watsonx's client library."""
@@ -211,6 +214,7 @@ class WatsonxInstrumentor(BaseInstrumentor):
             wrap_object = wrapped_method.get("object")
             unwrap(f"openai.{wrap_object}", wrapped_method.get("method"))
 ```
+
 - Test Program
   - The script includes a test program that demonstrates how to use the `WatsonxInstrumentor` to instrument a WatsonX `Model` object.
   - It sets up OpenTelemetry tracing, including an OTLP exporter, and then uses the instrumented Model object to generate a response to a prompt.
