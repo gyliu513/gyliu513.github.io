@@ -22,6 +22,7 @@ tag: react
     - [Dynamic Adjustment](#dynamic-adjustment)
     - [Efficient Problem Solving](#efficient-problem-solving)
   - [Application Scenarios for ReAct Agent](#application-scenarios-for-react-agent)
+  - [Example](#example)
   - [Summary](#summary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -73,6 +74,10 @@ The ReAct Agent completes tasks by alternating between reasoning, action, and ob
 - Game Agents: In automated game-solving, a ReAct Agent can observe the game's state and take different actions to achieve the goal.
 - Dialogue Systems: In complex conversational environments, a ReAct Agent can gradually analyze the user's intent, manage the dialogue, and dynamically adjust responses.
 - Automated Operations: In system operations, a ReAct Agent can analyze the system's state, take automated repair actions, and make further adjustments based on the feedback from each operation.
+
+## Example
+
+Refer to [react example](https://github.com/gyliu513/langX101/blob/main/react/react1.py) as a simple python example, good luck!
 
 ## Summary
 The ReAct Agent is a powerful intelligent agent architecture that excels at handling complex or dynamic tasks by combining reasoning and action. Through continuous feedback from the environment, the ReAct Agent can flexibly adjust its strategy, effectively solving multi-step and multi-phase tasks.
