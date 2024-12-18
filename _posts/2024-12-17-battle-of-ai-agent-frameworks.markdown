@@ -67,7 +67,7 @@ The rise of AI agent frameworks has enabled developers to build autonomous syste
 
 ### Overview
 
-OpenAI Assistants is OpenAI’s framework designed to integrate AI capabilities into applications. It allows developers to create assistants that can manage tasks such as answering questions, document summarization, and knowledge-based workflows.
+[OpenAI Assistants](https://platform.openai.com/docs/assistants/overview) is OpenAI’s framework designed to integrate AI capabilities into applications. It allows developers to create assistants that can manage tasks such as answering questions, document summarization, and knowledge-based workflows.
 
 ### Key Concepts
 
@@ -148,7 +148,7 @@ instructions="Please address the user as Jane Doe. The user has a premium accoun
 
 ### Overview
 
-OpenAI Swarm builds on the assistant concept by enabling multi-agent collaboration. It supports distributed problem-solving by coordinating several agents that can exchange outputs and build on each other’s tasks.
+[OpenAI Swarm](https://github.com/openai/swarm) builds on the assistant concept by enabling multi-agent collaboration. It supports distributed problem-solving by coordinating several agents that can exchange outputs and build on each other’s tasks.
 
 ### Key Concepts
 
@@ -216,7 +216,7 @@ print(response.messages[-1]["content"])
 
 ### Overview
 
-CrewAI is a Python-based framework for building collaborative multi-agent systems. It defines agents with specific roles and coordinates tasks in complex workflows.
+[CrewAI](https://www.crewai.com/open-source) is a Python-based framework for building collaborative multi-agent systems. It defines agents with specific roles and coordinates tasks in complex workflows.
 
 ### Key Concepts
 
@@ -306,7 +306,7 @@ if __name__ == "__main__":
 
 ### Overview
 
-AutoGen is a Microsoft framework for building collaborative, multi-agent workflows. It automates task execution and enables LLM agents to communicate dynamically.
+[AutoGen](https://github.com/microsoft/autogen) is a Microsoft framework for building collaborative, multi-agent workflows. It automates task execution and enables LLM agents to communicate dynamically.
 
 ### Key Concepts
 
@@ -379,7 +379,7 @@ asyncio.run(main())
 
 ### Overview
 
-LangGraph combines LangChain’s capabilities with graph-based execution, making it ideal for structured agent workflows. It manages tasks through nodes and edges, visualizing interactions.
+[LangGraph](https://github.com/langchain-ai/langgraph) combines LangChain’s capabilities with graph-based execution, making it ideal for structured agent workflows. It manages tasks through nodes and edges, visualizing interactions.
 
 ### Key Concepts
 
