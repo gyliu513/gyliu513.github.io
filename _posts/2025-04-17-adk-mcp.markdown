@@ -1,0 +1,318 @@
+---
+layout: post
+title:  "Building Modular AI Agents with Google ADK and MCP"
+date:   2025-04-17 08:17:10 -0400
+categories: jekyll update
+tag: ADK
+---
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Building Modular AI Agents with Google ADK and MCP](#building-modular-ai-agents-with-google-adk-and-mcp)
+  - [Introduction](#introduction)
+  - [What is Google ADK?](#what-is-google-adk)
+  - [What is MCP (Model Context Protocol)?](#what-is-mcp-model-context-protocol)
+  - [ADK & MCP Integration Tutorial](#adk--mcp-integration-tutorial)
+    - [Prerequisites](#prerequisites)
+    - [Using FileSystem MCP servers with ADK agents (ADK as an MCP client)](#using-filesystem-mcp-servers-with-adk-agents-adk-as-an-mcp-client)
+    - [Building an MCP server with ADK Load Web Page tools (MCP server exposing ADK)](#building-an-mcp-server-with-adk-load-web-page-tools-mcp-server-exposing-adk)
+  - [Why Modular AI Development is the Future](#why-modular-ai-development-is-the-future)
+    - [Scalability Through Specialization](#scalability-through-specialization)
+    - [Plug-and-Play Tooling via Protocols like MCP](#plug-and-play-tooling-via-protocols-like-mcp)
+    - [Dynamic Composition for Complex Tasks](#dynamic-composition-for-complex-tasks)
+    - [Ecosystem Collaboration & Reusability](#ecosystem-collaboration--reusability)
+  - [Reference](#reference)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Building Modular AI Agents with Google ADK and MCP
+
+## Introduction
+
+The world of AI is rapidly evolving from monolithic large language models to modular, task-oriented agent ecosystems. In this blog, we’ll explore how to use Google’s Agent Development Kit (ADK) together with the Model Context Protocol (MCP) to build intelligent, pluggable, and collaborative AI agents.
+
+We’ll walk through:
+
+- What ADK and MCP are
+- How to wire them together
+- A demo where agents collaborate using external tools
+- Why this modular approach represents the future of AI development
+
+## What is Google ADK?
+
+Google's ADK provides a framework for building and orchestrating AI agents that follow the Agent-to-Agent (A2A) communication model. Instead of a single LLM handling everything, ADK enables the creation of multiple specialized agents, such as:
+
+- PlannerAgent: breaks down the task
+- ToolAgent: fetches or processes data
+- WriterAgent: crafts the final response
+- ReviewerAgent: refines the output
+
+Each agent is implemented as a standalone service or function, capable of handling its role within a larger collaborative flow.
+
+## What is MCP (Model Context Protocol)?
+
+MCP is a lightweight protocol that allows agents to invoke tools and access external resources (like databases, APIs, or shell commands) using standardized, structured requests.
+
+With MCP, agents can:
+
+- Query real-time data
+- Execute custom tools
+- Log or trace task context
+- Operate in sandboxed environments
+
+Most importantly, MCP abstracts away the complexity of tool integration, letting agents interact with tools through a unified interface.
+
+## ADK & MCP Integration Tutorial
+There are two primary integration patterns for ADK and MCP as follows:
+- Using Existing MCP Servers within ADK: An ADK agent acts as an MCP client, leveraging tools provided by external MCP servers.
+- Exposing ADK Tools via an MCP Server: Building an MCP server that wraps ADK tools, making them accessible to any MCP client.
+
+```mermaid
+graph LR
+    subgraph "ADK Agent"
+        AA[ADK Agent]
+    end
+
+    subgraph "External MCP Servers"
+        MSK[MCP Server for Kubernets]
+        MSI[MCP Server for Instana]
+        MSF[MCP Server for Filesystem]
+
+        AA --> MSK
+        AA --> MSI
+        AA <--> MSF
+    end
+
+    subgraph "MCP Server with ADK Tools"
+        MSW[MCP Server for Weather]
+        ADKTW[ADK Tools for Weather]
+        MSLWP[MCP Server for Load Web Page]
+        ADKLWP[ADK Tools for Load Web Page]
+
+        AA --> MSW
+        MSW --> ADKTW
+        AA <--> MSLWP
+        MSLWP --> ADKLWP
+    end
+```
+
+### Prerequisites
+
+- Set up ADK: Run `pip install google-adk` to install Google ADK.
+- Set up MCP: Run `pip install mcp` to install MCP.
+- Install/update Python: MCP requires Python version of 3.9 or higher.
+- Setup Node.js and npx: Many community MCP servers are distributed as Node.js packages and run using npx. Install Node.js (which includes npx) if you haven't already. For details, see https://nodejs.org/en.
+- Get an API key from [Google AI Studio](https://aistudio.google.com/apikey).
+- Create a .env file with content as `GOOGLE_API_KEY=<Your Google API Key>`.
+
+### Using FileSystem MCP servers with ADK agents (ADK as an MCP client)
+
+The following example use the MCPToolset class in ADK which acts as the bridge to the MCP server.
+
+Create a python file named as `./adk/mcp-agent/agent.py`, you can get the [full runnable source code](https://github.com/gyliu513/langX101/blob/main/adk/mcp-agent/agent.py) from my github.
+
+There are mainly three steps for the sample code:
+
+Step1 connects to a local MCP Server (in this case, one that provides access to file system tools) and fetches the tools it exposes. When you run the test, make sure update the file path to an ABSOLUTE path on your system. This will create a ready-to-use set of tools (e.g., list, read, write files) for the AI agent.
+
+```python
+# --- Step 1: Import Tools from MCP Server ---
+async def get_tools_async():
+  """Gets tools from the File System MCP Server."""
+  print("Attempting to connect to MCP Filesystem server...")
+  tools, exit_stack = await MCPToolset.from_server(
+      # Use StdioServerParameters for local process communication
+      connection_params=StdioServerParameters(
+          command='npx', # Command to run the server
+          args=["-y",    # Arguments for the command
+                "@modelcontextprotocol/server-filesystem",
+                # TODO: IMPORTANT! Change the path below to an ABSOLUTE path on your system.
+                "/Users/gyliu513/go/src/github.com/gyliu513/langX101"],
+      )
+      # For remote servers, you would use SseServerParams instead:
+      # connection_params=SseServerParams(url="http://remote-server:port/path", headers={...})
+  )
+  print("MCP Toolset created successfully.")
+  # MCP requires maintaining a connection to the local MCP Server.
+  # exit_stack manages the cleanup of this connection.
+  return tools, exit_stack
+```
+
+Step2 creates an LLM agent (a smart assistant) and equips it with the tools retrieved in Step1. This will create a configured agent that knows how to interact with the file system using the given tools.
+
+```python
+# --- Step 2: Agent Definition ---
+async def get_agent_async():
+  """Creates an ADK Agent equipped with tools from the MCP Server."""
+  tools, exit_stack = await get_tools_async()
+  print(f"Fetched {len(tools)} tools from MCP server.")
+  root_agent = LlmAgent(
+      model='gemini-2.0-flash', # Adjust model name if needed based on availability
+      name='filesystem_assistant',
+      instruction='Help user interact with the local filesystem using available tools.',
+      tools=tools, # Provide the MCP tools to the ADK agent
+  )
+  return root_agent, exit_stack
+```
+
+Step3 runs the full workflow: receive a user query, let the agent process it using the tools, and print results. The agent processes the user’s natural language request, interacts with the local file system through MCP tools, and returns the response.
+
+```python
+# --- Step 3: Main Execution Logic ---
+async def async_main():
+  session_service = InMemorySessionService()
+  # Artifact service might not be needed for this example
+  artifacts_service = InMemoryArtifactService()
+
+  session = session_service.create_session(
+      state={}, app_name='mcp_filesystem_app', user_id='user_fs'
+  )
+
+  # TODO: Change the query to be relevant to YOUR specified folder.
+  # e.g., "list files in the 'documents' subfolder" or "read the file 'notes.txt'"
+  query = "list files in the adk folder"
+  print(f"User Query: '{query}'")
+  content = types.Content(role='user', parts=[types.Part(text=query)])
+
+  root_agent, exit_stack = await get_agent_async()
+
+  runner = Runner(
+      app_name='mcp_filesystem_app',
+      agent=root_agent,
+      artifact_service=artifacts_service, # Optional
+      session_service=session_service,
+  )
+
+  print("Running agent...")
+  events_async = runner.run_async(
+      session_id=session.id, user_id=session.user_id, new_message=content
+  )
+
+  async for event in events_async:
+    print(f"Event received: {event}")
+
+  # Crucial Cleanup: Ensure the MCP server process connection is closed.
+  print("Closing MCP server connection...")
+  await exit_stack.aclose()
+  print("Cleanup complete.")
+```
+
+The whole sequence will be as following:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Agent
+    participant MCP Server
+    participant Filesystem
+
+    User->>Agent: Submit query (e.g., list files)
+    Agent->>MCP Server: Connect via subprocess (stdio)
+    Agent->>MCP Server: Request tools
+    MCP Server-->>Agent: Return tool definitions
+    Agent->>MCP Server: Invoke tool (e.g., list files)
+    MCP Server->>Filesystem: Perform filesystem operation
+    Filesystem-->>MCP Server: Return result
+    MCP Server-->>Agent: Return tool invocation result
+    Agent-->>User: Stream response/events
+```
+
+When I run this code on my laptop, I will get the following output, the output will contain the connection attempt, the MCP server starting (via npx), the ADK agent events (including the FunctionCall to list_directory and the FunctionResponse), and the final agent text response based on the file listing. Ensure the exit_stack.aclose() runs at the end.
+
+```
+User Query: 'list files in the adk folder'
+Attempting to connect to MCP Filesystem server...
+Secure MCP Filesystem Server running on stdio
+Allowed directories: [ '/Users/gyliu513/go/src/github.com/gyliu513/langX101' ]
+MCP Toolset created successfully.
+Fetched 11 tools from MCP server.
+Running agent...
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+Event received: content=Content(parts=[Part(video_metadata=None, thought=None, code_execution_result=None, executable_code=None, file_data=None, function_call=FunctionCall(id='adk-23f253aa-f0e1-42cc-b075-a5a5dd66c38b', args={'path': 'adk'}, name='list_directory'), function_response=None, inline_data=None, text=None)], role='model') grounding_metadata=None partial=None turn_complete=None error_code=None error_message=None interrupted=None invocation_id='e-f41411c7-87e2-435f-89ae-09f5e504fc90' author='filesystem_assistant' actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None, requested_auth_configs={}) long_running_tool_ids=set() branch=None id='aoSAGo89' timestamp=1744913182.522629
+Event received: content=Content(parts=[Part(video_metadata=None, thought=None, code_execution_result=None, executable_code=None, file_data=None, function_call=None, function_response=FunctionResponse(id='adk-23f253aa-f0e1-42cc-b075-a5a5dd66c38b', name='list_directory', response={'result': CallToolResult(meta=None, content=[TextContent(type='text', text='[DIR] mcp-agent\n[DIR] mcp-server\n[DIR] multi_tool_agent', annotations=None)], isError=False)}), inline_data=None, text=None)], role='user') grounding_metadata=None partial=None turn_complete=None error_code=None error_message=None interrupted=None invocation_id='e-f41411c7-87e2-435f-89ae-09f5e504fc90' author='filesystem_assistant' actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None, requested_auth_configs={}) long_running_tool_ids=None branch=None id='q3E8sear' timestamp=1744913183.77521
+Event received: content=Content(parts=[Part(video_metadata=None, thought=None, code_execution_result=None, executable_code=None, file_data=None, function_call=None, function_response=None, inline_data=None, text='Okay, I see three directories inside the `adk` directory: `mcp-agent`, `mcp-server`, and `multi_tool_agent`.\n')], role='model') grounding_metadata=None partial=None turn_complete=None error_code=None error_message=None interrupted=None invocation_id='e-f41411c7-87e2-435f-89ae-09f5e504fc90' author='filesystem_assistant' actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None, requested_auth_configs={}) long_running_tool_ids=None branch=None id='S7wXbkGU' timestamp=1744913183.776967
+Closing MCP server connection...
+Cleanup complete.
+```
+
+### Building an MCP server with ADK Load Web Page tools (MCP server exposing ADK)
+
+This pattern allows you to wrap ADK's tools and make them available to any standard MCP client application. The example in this section exposes the load_web_page ADK tool through the MCP server.
+
+You can get the [full runnable source code](https://github.com/gyliu513/langX101/tree/main/adk/mcp-server) from my github.
+
+It has two files `agent.py` and `mcp-server.py`.
+- agent.py: Agent code that will call the mcp server to load a web page, it will connect to the MCP Server automatically when running.
+- mcp-server.py: A MCP Server that using tools exposed by ADK Tools. This example is using a load web page from ADK Tools.
+
+The output of the `agent.py` will be as following:
+
+```
+User Query: 'load web page https://gyliu513.medium.com/'
+Attempting to connect to Load Web Page MCP Server...
+MCP Toolset created successfully.
+Fetched 1 tools from MCP server.
+Running agent...
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+Event received: content=Content(parts=[Part(video_metadata=None, thought=None, code_execution_result=None, executable_code=None, file_data=None, function_call=FunctionCall(id='adk-319b1676-01d4-47a4-bb20-e06e59eb6e6d', args={'url': 'https://gyliu513.medium.com/'}, name='load_web_page'), function_response=None, inline_data=None, text=None)], role='model') grounding_metadata=None partial=None turn_complete=None error_code=None error_message=None interrupted=None invocation_id='e-52aa7e1c-a56c-4b47-a410-c6880b3cd3dd' author='load_web_page_assistant' actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None, requested_auth_configs={}) long_running_tool_ids=set() branch=None id='1rp2DHd3' timestamp=1744914127.754652
+Event received: content=Content(parts=[Part(video_metadata=None, thought=None, code_execution_result=None, executable_code=None, file_data=None, function_call=None, function_response=FunctionResponse(id='adk-319b1676-01d4-47a4-bb20-e06e59eb6e6d', name='load_web_page', response={'result': CallToolResult(meta=None, content=[TextContent(type='text', text='"Guangya Liu \\u2013 Medium\\nFrom MCP to A2A: Advancing Agent Evaluation\\nAs AI agents evolve from performing isolated tasks to collaborating within multi-agent ecosystems, evaluating their performance becomes\\u2026\\nFrom Chains to Graphs: How LangGraph and MCP Are Redefining the Future of AI Agents\\nDeveloper Quick Start with MCP Server in VS Code\\nGitHub Copilot Chat now supports Chat Agent Mode, allowing your MCP Server to respond to user questions within the VS Code chat interface\\u2026\\nMCP: The OpenAPI for AI Agents\\nBuild and Run a Go MCP Server in 5Mins\\nFrom OpenAI API Compatibility APIs to MCP-Compatible Agents: An Evolution in AI Integration\\nEarly Popularity of OpenAI-Compatible APIs\\nThe Future of MCP Powered GenAI Agents\\nMCP is growing rapidly, every morning I wake up to a flood of new updates and discussions about it. It\\u2019s clear that MCP is gaining\\u2026\\nThe Future of Observability Is Open: A CNCF Perspective\\nObservability has become indispensable for running modern, distributed systems in a reliable and efficient manner. As cloud-native\\u2026\\nMCP Developer Quick Start\\nThe Future of AI-Driven Products: UI + LLM Agent + Customer Data\\nSTSM@IBM, Member - IBM Academy of Technology, Observability, AI and Open Source."', annotations=None)], isError=False)}), inline_data=None, text=None)], role='user') grounding_metadata=None partial=None turn_complete=None error_code=None error_message=None interrupted=None invocation_id='e-52aa7e1c-a56c-4b47-a410-c6880b3cd3dd' author='load_web_page_assistant' actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None, requested_auth_configs={}) long_running_tool_ids=None branch=None id='vHmybL2c' timestamp=1744914130.174894
+Event received: content=Content(parts=[Part(video_metadata=None, thought=None, code_execution_result=None, executable_code=None, file_data=None, function_call=None, function_response=None, inline_data=None, text='I have loaded the web page and the content is: "Guangya Liu \\u2013 Medium\\nFrom MCP to A2A: Advancing Agent Evaluation\\nAs AI agents evolve from performing isolated tasks to collaborating within multi-agent ecosystems, evaluating their performance becomes\\u2026\\nFrom Chains to Graphs: How LangGraph and MCP Are Redefining the Future of AI Agents\\nDeveloper Quick Start with MCP Server in VS Code\\nGitHub Copilot Chat now supports Chat Agent Mode, allowing your MCP Server to respond to user questions within the VS Code chat interface\\u2026\\nMCP: The OpenAPI for AI Agents\\nBuild and Run a Go MCP Server in 5Mins\\nFrom OpenAI API Compatibility APIs to MCP-Compatible Agents: An Evolution in AI Integration\\nEarly Popularity of OpenAI-Compatible APIs\\nThe Future of MCP Powered GenAI Agents\\nMCP is growing rapidly, every morning I wake up to a flood of new updates and discussions about it. It\\u2019s clear that MCP is gaining\\u2026\\nThe Future of Observability Is Open: A CNCF Perspective\\nObservability has become indispensable for running modern, distributed systems in a reliable and efficient manner. As cloud-native\\u2026\\nMCP Developer Quick Start\\nThe Future of AI-Driven Products: UI + LLM Agent + Customer Data\\nSTSM@IBM, Member - IBM Academy of Technology, Observability, AI and Open Source."\n')], role='model') grounding_metadata=None partial=None turn_complete=None error_code=None error_message=None interrupted=None invocation_id='e-52aa7e1c-a56c-4b47-a410-c6880b3cd3dd' author='load_web_page_assistant' actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None, requested_auth_configs={}) long_running_tool_ids=None branch=None id='q5VbEmej' timestamp=1744914130.178183
+Closing MCP server connection...
+Cleanup complete.
+```
+
+## Why Modular AI Development is the Future
+
+### Scalability Through Specialization
+
+Just like in software engineering, monolithic AI systems hit a ceiling—trying to do everything in one model is:
+- Expensive to scale
+- Hard to maintain
+- Difficult to extend
+
+Modular agent-based systems break down complexity, enabling each agent to specialize:
+- A planner thinks
+- A tool agent acts
+- A writer crafts responses
+- A reviewer checks logic
+
+This mimics how teams and humans work: divide, conquer, and collaborate.
+
+### Plug-and-Play Tooling via Protocols like MCP
+
+Modern AI systems need to talk to the world—databases, APIs, internal tools, cloud services.
+
+Instead of hardcoding all integrations, MCP provides a protocol abstraction, allowing agents to call tools dynamically and securely. Tools become modular services, and any agent can invoke them through a standard interface.
+
+Think of MCP as the “USB protocol” for AI tools.
+
+### Dynamic Composition for Complex Tasks
+
+Instead of retraining a model to add new skills, you simply wire in a new agent or tool.
+
+For example:
+
+- Want to handle Excel files? Add a spreadsheet tool to MCP.
+- Want deeper analysis? Add a DataAnalystAgent.
+- Want more creativity? Swap in a different LLM for WriterAgent.
+
+The system evolves by recombining capabilities—not re-training monoliths.
+
+### Ecosystem Collaboration & Reusability
+
+Each agent and tool is a reusable building block:
+
+- You can share agents across projects
+- Tools can be packaged as plugins
+- Entire workflows can be versioned and composed like pipelines
+
+This opens doors for:
+- Open-source agent marketplaces
+- Agent chaining across organizations
+- Composable multi-agent systems
+
+## Reference
+
+- [Google ADK MCP Tools](https://google.github.io/adk-docs/tools/mcp-tools/)
