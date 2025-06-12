@@ -18,7 +18,7 @@ tag: MCP
   - [Capability-Level MCP Server - _**"Goal-Oriented – abstracts business-level intents"**_](#capability-level-mcp-server---_goal-oriented--abstracts-business-level-intents_)
   - [Product-Level MCP Server - _**"System-Oriented – wraps complete product APIs"**_](#product-level-mcp-server---_system-oriented--wraps-complete-product-apis_)
   - [Component-Level MCP Server - _**"Function-Oriented – exposes individual service functionality"**_](#component-level-mcp-server---_function-oriented--exposes-individual-service-functionality_)
-- [Concluion and Key Take Aways](#concluion-and-key-take-aways)
+- [Conclusion and Key Take Aways](#concluion-and-key-take-aways)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -215,7 +215,7 @@ _**Key Benefits of this Architectural Pattern**_
 - **Team Ownership Alignment:** Fits well with DevOps and squad-based teams where each team owns a microservice and its automation contract.
 - **Safe Experimentation:** Perfect for prototyping new tools, testing LLM interactions, or building internal AI copilots before surfacing capabilities at the product level.
 
-## Concluion and Key Take Aways
+## Conclusion and Key Take Aways
 
 **Capability-Level MCP Server Architecture Pattern:** 
 - Enable AI agents to think and act in terms of business outcomes, not low-level APIs.
