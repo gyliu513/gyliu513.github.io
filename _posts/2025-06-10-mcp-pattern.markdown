@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "Think in Intents, Not APIs: MCP Architecture Patterns for AI-Centric Automation"
-co-author: "Ruchi"
 date:   2025-06-10 08:17:10 -0400
 categories: jekyll update
 tag: MCP
@@ -178,7 +177,7 @@ _**Key Benefits of this Architectural Pattern**_
 - **LLM-Aware Orchestration:** Enables LLMs to reason across tools and compose semantically rich, multi-step workflows. Thereby, improving accuracy, adaptability, and intent resolution.
 
 ### Component-Level MCP Server - _"Function-Oriented – exposes individual service functionality"_
-**
+
 A **Component-Level MCP Server** wraps and exposes the internal APIs of a single product component or microservice. It is ideal for **fine-grained automation, internal AI agents**, or when capabilities are distributed across modular components.
 
 ![w](/images/mcp-pattern/com-level.png)
@@ -226,7 +225,7 @@ _**Key Benefits of this Architectural Pattern**_
 - Simplify and secure AI access to enterprise products by exposing only stable, governed APIs.
 - Serve as registry-ready gateways that enable safe, scalable integration for LLMs and agents, while maintaining control, observability, and team autonomy. This approach balances ease of use with strict governance, ideal for hybrid environments, external partners, and chatbot interfaces.
 
-**Component-Level MCP Server Architecure Pattern:**
+**Component-Level MCP Server Architecture Pattern:**
 - Expose microservice-level APIs to enable fast, granular, and testable AI automation.
 - Designed for internal use, they support prototyping, fine-grained orchestration, and iterative development—giving teams agility and control without coupling to broader platform constraints.
 - Ideal for DevOps squads building intelligent workflows from the ground up, one component at a time.
