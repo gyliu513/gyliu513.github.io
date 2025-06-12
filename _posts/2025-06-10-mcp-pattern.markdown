@@ -17,7 +17,7 @@ tag: MCP
 - [MCP Server Patterns](#mcp-server-patterns)
   - [Capability-Level MCP Server - _**"Goal-Oriented – abstracts business-level intents"**_](#capability-level-mcp-server---_goal-oriented--abstracts-business-level-intents_)
   - [Product-Level MCP Server - _**"System-Oriented – wraps complete product APIs"**_](#product-level-mcp-server---_system-oriented--wraps-complete-product-apis_)
-  - [Component-Level MCP Server - _"Function-Oriented – exposes individual service functionality"_](#component-level-mcp-server---_function-oriented--exposes-individual-service-functionality_)
+  - [Component-Level MCP Server - _**"Function-Oriented – exposes individual service functionality"**_](#component-level-mcp-server---_function-oriented--exposes-individual-service-functionality_)
 - [Concluion and Key Take Aways](#concluion-and-key-take-aways)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -31,9 +31,9 @@ As AI agents mature from research demos to production grade orchestration platfo
 
 <!-- To address this, the MCP Server Pattern introduces three architectural levels:-->
 To address this, we explore three architectural patterns:
-1) Capability-Level MCP Server for high-level business intent abstraction
-2) Product-Level MCP Server for wrapping stable product APIs
-3) Component-Level MCP Server for fine-grained, microservice-level automation
+- Capability-Level MCP Server for high-level business intent abstraction
+- Product-Level MCP Server for wrapping stable product APIs
+- Component-Level MCP Server for fine-grained, microservice-level automation
 
 This layered approach enables cross product orchestration, simplifies agent development, supports modular evolution, and aligns well with team-based ownership in modern DevOps organizations.
 
@@ -176,7 +176,7 @@ _**Key Benefits of this Architectural Pattern**_
 - **Plug-and-Play Modularity:** New products or services can be integrated by simply deploying a new agent and MCP server pair. Therefore, no changes required to existing agents or orchestration logic.
 - **LLM-Aware Orchestration:** Enables LLMs to reason across tools and compose semantically rich, multi-step workflows. Thereby, improving accuracy, adaptability, and intent resolution.
 
-### Component-Level MCP Server - _"Function-Oriented – exposes individual service functionality"_
+### Component-Level MCP Server - _**"Function-Oriented – exposes individual service functionality"**_
 
 A **Component-Level MCP Server** wraps and exposes the internal APIs of a single product component or microservice. It is ideal for **fine-grained automation, internal AI agents**, or when capabilities are distributed across modular components.
 
