@@ -1,0 +1,14 @@
+/* Custom styles for Mermaid diagrams */
+.mermaid {
+  margin: 20px 0;
+  text-align: center;
+  overflow-x: auto;
+}
+
+/* Make sure diagrams are responsive */
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Made with Bob */
