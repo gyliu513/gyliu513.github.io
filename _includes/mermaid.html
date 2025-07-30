@@ -1,0 +1,49 @@
+<!-- Mermaid initialization script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Find all pre > code elements with class 'language-mermaid'
+    const mermaidCodeBlocks = document.querySelectorAll('pre > code.language-mermaid');
+    
+    // For each mermaid code block
+    mermaidCodeBlocks.forEach(function(codeBlock) {
+      // Get the parent pre element
+      const preElement = codeBlock.parentElement;
+      
+      // Create a new div with class 'mermaid'
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.classList.add('mermaid');
+      
+      // Copy the content from the code block to the mermaid div
+      mermaidDiv.textContent = codeBlock.textContent;
+      
+      // Replace the pre element with the mermaid div
+      preElement.parentNode.replaceChild(mermaidDiv, preElement);
+    });
+    
+    // Also handle code blocks that don't have the language-mermaid class but are inside ```mermaid blocks
+    const preElements = document.querySelectorAll('pre');
+    preElements.forEach(function(preElement) {
+      const codeElement = preElement.querySelector('code');
+      if (codeElement && codeElement.textContent.trim().startsWith('graph ') || 
+          codeElement && codeElement.textContent.trim().startsWith('sequenceDiagram') ||
+          codeElement && codeElement.textContent.trim().startsWith('classDiagram') ||
+          codeElement && codeElement.textContent.trim().startsWith('stateDiagram')) {
+        
+        // Create a new div with class 'mermaid'
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.classList.add('mermaid');
+        
+        // Copy the content from the code block to the mermaid div
+        mermaidDiv.textContent = codeElement.textContent;
+        
+        // Replace the pre element with the mermaid div
+        preElement.parentNode.replaceChild(mermaidDiv, preElement);
+      }
+    });
+    
+    // Initialize mermaid
+    mermaid.init();
+  });
+</script>
+
+<!-- Made with Bob -->
