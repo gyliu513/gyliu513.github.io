@@ -72,11 +72,8 @@ This node performs a vector search based on the query and stores the results in 
 #### 📊 Node: Generate Response
 ```python
 def generate_response(state: RAGState):
-    context = "
-".join(state["retrieved_docs"])
-    answer = call_llm(f"{context}
-
-Answer: {state['query']}")
+    context = "\n".join(state["retrieved_docs"])
+    answer = call_llm(f"{context}\n\nAnswer: {state['query']}")
     return {
         "response": answer,
         "messages": [AIMessage(content=answer)]
