@@ -6,8 +6,6 @@ categories: jekyll update
 tag: LangGraph
 ---
 
-# Design Smarter AI Workflows with LangGraph: State, Messages, Context, and Control Flow Demystified
-
 LangGraph isn't just another workflow engine—it's a flexible, stateful, and intelligent system for managing complex AI flows. Whether you're building a chatbot, a multi-agent orchestration system, or a retrieval-augmented generator (RAG), LangGraph gives you tools to:
 
 - Maintain evolving state
@@ -104,7 +102,7 @@ def agent_response(state: ChatState):
 ```
 These nodes simulate a simple interaction between a user and an AI agent, each appending a message to the shared chat history.
 
-### 🌐 Message Flow:
+### 🌐 Message Flow
 ```mermaid
 flowchart TD
     A[User Input] --> B[Agent Response]
@@ -191,6 +189,8 @@ This defines a runtime-only configuration schema with an LLM provider string.
 
 ### ✅ Step 2: Use in graph
 ```python
+from langgraph.graph import StateGraph
+
 graph = StateGraph(State, context_schema=ContextSchema)
 ```
 Register the context schema with the graph.
