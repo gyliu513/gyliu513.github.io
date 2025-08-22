@@ -1,0 +1,163 @@
+---
+layout: post
+title:  "AGENTS.md: The README Your AI Coding Agents Actually Read"
+date:   2025-08-21 08:17:10 -0400
+categories: jekyll update
+tag: [Agents, Coding]
+---
+
+> **TL;DR**: `AGENTS.md` is a simple, open Markdown file you add to your repo to give AI coding agents the exact build, test, and contribution instructions they need—without cluttering your human-facing README.
+
+---
+
+## Background
+
+AI coding agents (and AI-powered IDEs) increasingly participate in routine engineering tasks: setting up dev environments, running tests, applying code style rules, and preparing pull requests. Unlike humans, agents benefit from a **predictable, machine-readable place** to discover these instructions. Traditional `README.md` files are optimized for people; they’re concise, marketing-friendly, and often omit the gritty details agents need (exact commands, monorepo conventions, CI nuances, etc.).
+
+`AGENTS.md` addresses this gap with a **convention over configuration** approach: put agent-facing guidance in one well-known file that tools can read consistently.
+
+---
+
+## What is AGENTS.md?
+
+`AGENTS.md` is a **simple, open format** (just Markdown) placed at the root of your repository—and optionally inside subpackages of a monorepo—to give coding agents clear instructions about your project. There is **no required schema**; you write normal Markdown and include what agents should do and how they should do it (build, test, lint, run, style, PR rules, security caveats, data constraints, etc.).
+
+Popular sections include:
+- Project overview and architecture notes
+- **Setup & build commands** (install, dev server, build artifacts)
+- **Test commands & CI expectations**
+- **Code style** (language level, linting rules, formatting)
+- **PR & commit conventions**
+- **Security and dependency policies**
+
+Because it is just Markdown, it works across editors, CLIs, and agents.
+
+---
+
+## Why do we need it?
+
+- **Predictability for agents**: Agents know exactly where to look for operational details, reducing hallucinations, guesswork, and repeated trial/error.
+- **Keeps READMEs human-focused**: Your `README.md` stays concise for humans while `AGENTS.md` carries operational depth for machines.
+- **Cross-tool compatibility**: A single file that many agents can ingest (IDEs, CLIs, agent frameworks), avoiding proprietary configs.
+- **Scales to monorepos**: Place `AGENTS.md` near each package to provide local rules that override the repo root.
+- **Executable guidance**: When you include commands (tests, linters), capable agents can execute them and iterate until the checks pass.
+
+---
+
+## Architecture (Conceptual)
+
+```mermaid
+flowchart TD
+  subgraph Repo["Repository"]
+    R1[README.md<br/>Human-focused docs]
+    A1[AGENTS.md<br/>Agent-focused ops]
+    subgraph Pkg1["packages/app"]
+      A2[AGENTS.md<br/>App-specific rules]
+    end
+    subgraph Pkg2["packages/lib"]
+      A3[AGENTS.md<br/>Lib-specific rules]
+    end
+  end
+
+  Agent[AI Coding Agent / IDE / CLI]
+  Tools[Tooling: Linter, Test Runner, Build, CI]
+
+  Agent -->|Reads & parses| A1
+  Agent -->|Nearest-file wins| A2
+  Agent -->|Nearest-file wins| A3
+  Agent -->|Human context| R1
+
+  A1 -->|Commands & policies| Tools
+  A2 -->|Commands & policies| Tools
+  A3 -->|Commands & policies| Tools
+```
+
+**Notes**
+
+- Agents read **the nearest `AGENTS.md`** relative to the file(s) they’re editing in a monorepo (local overrides root).
+- Tools (linters, test runners, build tools) are **invoked per instructions** documented in the file.
+
+---
+
+## Workflow (End-to-end)
+
+```mermaid
+sequenceDiagram
+  participant Dev as Developer
+  participant Agent as Coding Agent / IDE / CLI
+  participant Repo as Repo (README.md, AGENTS.md, packages/*)
+  participant Tools as Tooling (lint, test, build, CI)
+
+  Dev->>Agent: "Implement feature X"
+  Agent->>Repo: Locate nearest AGENTS.md
+  Repo-->>Agent: Return Markdown instructions (setup, style, tests, PR rules)
+  Agent->>Tools: Run setup/build/test commands from AGENTS.md
+  Tools-->>Agent: Results (failures, logs)
+  Agent->>Repo: Apply fixes per style/test guidance
+  Agent->>Dev: Propose patch & PR description compliant with AGENTS.md
+```
+
+**Highlights**
+
+- If `AGENTS.md` provides commands (e.g., `pnpm test`, `pnpm lint`), capable agents **execute them before finishing the task**.
+- Human prompts still **override** file guidance, but `AGENTS.md` dramatically shortens _prompting_ by codifying routine rules.
+
+---
+
+## A Simple Example (with explanation)
+
+Below is a minimal-yet-useful `AGENTS.md` you can drop into a TypeScript monorepo. It encodes the **dev setup**, **test plan**, **style rules**, and **PR checklist** that agents should follow. Adjust to your stack (e.g., Python/Poetry, Java/Maven, Go, Rust).
+
+```markdown
+# AGENTS.md
+
+## Setup
+- Install deps: `pnpm install`
+- Start dev server: `pnpm dev`
+- Build: `pnpm build`
+
+## Code style
+- TypeScript strict mode
+- Single quotes, no semicolons
+- Prefer functional patterns
+
+## Testing
+- Unit tests: `pnpm test`
+- Monorepo: `pnpm turbo run test --filter <package>`
+- Lint: `pnpm lint --filter <package>`
+- CI plan lives in `.github/workflows/*`
+
+## PR rules
+- Title format: `[<package>] <Title>`
+- Before commit: run `pnpm lint` and `pnpm test`
+- Add/refresh tests for changed code
+
+## Security
+- Do not commit secrets; use `.env.example`
+- Review dependency changes before release
+```
+
+**Why this works**
+
+- Agents get **exact commands** (less guessing).
+- Style gates are explicit, so agents **format and refactor appropriately**.
+- PR policy is encoded, so the agent can **draft compliant PR titles/descriptions**.
+- In a monorepo, you can add a **package-local `AGENTS.md`** whose instructions override the root for better context locality.
+
+---
+
+## Key Takeaways
+
+- `AGENTS.md` is **just Markdown**—no learning curve or vendor lock-in.
+- It **complements** your `README.md`: humans there, **machines here**.
+- It reduces **prompt boilerplate** and **agent guesswork**, improving reliability.
+- It scales to **monorepos**; the **closest file wins**.
+- When you list commands, capable agents can **run them and iterate** automatically.
+- Treat it as **living documentation** and update as workflows evolve.
+
+---
+
+## References & Further Reading
+
+- Project site: https://agents.md/
+- Source & examples: https://github.com/openai/agents.md
