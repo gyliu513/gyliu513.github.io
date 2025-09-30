@@ -1,0 +1,112 @@
+---
+layout: post
+title:  "MCPB: The Future of MCP Bundles for AI-Native Applications"
+date:   2025-09-29 08:17:10 -0400
+categories: jekyll update
+tag: [mcpb, mcp]
+---
+
+## Introduction
+As AI systems evolve, **Model Context Protocol (MCP)** has emerged as a standard for connecting models with external tools and data. At the heart of this ecosystem, Anthropic introduced **MCPB (MCP Bundle)** — a packaging format designed to simplify how MCP servers are distributed, installed, and executed.  
+
+Think of MCPB as the **“app bundle” for MCP servers**: it encapsulates everything you need to run an MCP server in a single portable file. This blog explores what MCPB is today, how it works, and where it could go in the future.
+
+---
+
+## What is MCPB?
+MCPB stands for **MCP Bundle**, a single-file distribution format for MCP servers. It packages:
+- **Server code** (Python, Node.js, etc.)
+- **`manifest.json`** (server metadata: tools, resources, config)
+- **Dependencies** (optional runtime libraries)
+- **Assets** (icons, screenshots, docs)
+
+This format solves a key pain point: without MCPB, installing an MCP server can be messy (different dependencies, languages, and configs). With MCPB, you just need the `.mcpb` file — making distribution and installation frictionless.
+
+---
+
+## How MCPB Works
+
+1. **Developer prepares source code**
+   - Includes `manifest.json`, dependencies, and optional assets.  
+
+2. **Pack into `.mcpb` file**
+   ```bash
+   npx -y @anthropic-ai/mcpb pack . my-server.mcpb
+   ```
+
+3. **Distribute**
+   - Share via GitHub Release, internal repo, or a future MCP marketplace.
+
+4. **Load into host**
+   - Claude Desktop, IDE plugins to load the `.mcpb` file directly.  
+
+5. **Run the server**
+   - The host spins up the MCP server, exposing its tools and resources.  
+
+---
+
+## Example `manifest.json`
+Here’s a simplified snippet you might see inside a bundle:
+
+```json
+{
+  "manifest_version": "0.2",
+  "name": "my-mcp",
+  "display_name": "My MCP Server",
+  "version": "0.3.0",
+  "description": "My MCP Server",
+  "author": {
+    "name": "me",
+    "email": "me@example.com"
+  },
+  "tools": [
+    {
+      "name": "hello_world",
+      "description": "Hello World"
+    }
+  ],
+  "resources": [
+    {
+      "name": "hello",
+      "type": "world"
+    }
+  ],
+  "user_config": {
+    "version": {
+      "type": "string",
+      "title": "Version",
+      "description": "Version of the package which is being installed.",
+      "default": "0.3.0",
+      "required": false
+    }
+  },
+  "license": "Apache 2.0",
+}
+```
+
+This manifest defines what the server offers (tools, resources) and how users configure it. Check [mcpb examples](https://github.com/anthropics/mcpb/tree/main/examples) to see more details.
+
+---
+
+## Why MCPB Matters
+- **Portability**: One file contains everything.  
+- **Ease of installation**: No dependency hell.  
+- **Standardization**: Hosts know exactly how to load a `.mcpb`.  
+- **Ecosystem growth**: Easier for developers to publish, easier for users to consume.  
+
+---
+
+## Long-Term Vision
+If MCP is the **operating system for AI-native applications**, then MCPB is the **application bundle format**.  
+Just as we rely on `.jar` files in Java, `.deb` packages in Linux, and `.vsix` files for VSCode, MCPB has the potential to become the **standard way to distribute AI plugins and agents**.  
+
+It’s not just a packaging format — it’s the foundation for a thriving AI-native app ecosystem.  
+
+---
+
+## Conclusion
+MCPB is still young, but it already shows promise as the **distribution backbone of the MCP ecosystem**. By solving installation pain points and paving the way for registries, marketplaces, and AI-driven tooling, MCPB could become the **“Docker image” or “npm package” of AI-native development**.  
+
+For developers: start experimenting with `@anthropic-ai/mcpb`.  
+For ecosystem builders: imagine what a world of MCPB-powered apps could look like.  
+The future of AI observability, orchestration, and interaction may very well be packaged inside a `.mcpb`.  
