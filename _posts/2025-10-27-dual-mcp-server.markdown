@@ -142,11 +142,7 @@ This diagram illustrates the architecture of the **Product Internal MCP Server**
    - **Internal MCP Server (IMS)**: Runs within your product's backend, highlighted in green to indicate the internal AI infrastructure
    - **Product Backend**: Your core backend systems, data stores, and business logic
    - Internal MCP Server has direct backend access, bypassing the API
-   - Internal MCP Client and Server communicate bidirectionally 
-
-2. **AI Interface**: Your product's internal AI capabilities:
-   - **Internal LLM/Chat Bot**: Your product's built-in AI assistant or chat interface
-   - Communicates bidirectionally with the Internal MCP Client to access product capabilities
+   - Internal MCP Client and Server communicate bidirectionally
 
 3. **End User**: The user interacting with your product:
    - Accesses your product's internal AI features through the AI Interface
@@ -212,8 +208,8 @@ graph LR
     end
 
     subgraph "End Users"
-        U1[User via External AI]
-        U2[User via Product UI]
+        U2[User via External AI]
+        U1[User via Product UI]
         U1 --> IMC
         U2 --> MH
     end
