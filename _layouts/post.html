@@ -19,7 +19,16 @@ layout: default
     {{ content }}
   </div>
 
-  {%- if site.disqus.shortname -%}
+  {%- if site.comments and site.comments.provider == 'utterances' -%}
+<script src="https://utteranc.es/client.js"
+        repo="{{ site.comments.utterances.repo }}"
+        issue-term="{{ site.comments.utterances.issue_term | default: 'pathname' }}"
+        label="{{ site.comments.utterances.label | default: 'comments' }}"
+        theme="{{ site.comments.utterances.theme | default: 'preferred-color-scheme' }}"
+        crossorigin="anonymous"
+        async>
+</script>
+  {%- elsif site.disqus.shortname -%}
     {%- include disqus_comments.html -%}
   {%- endif -%}
 

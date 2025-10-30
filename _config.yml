@@ -23,7 +23,7 @@ email: gyliu513@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Roadmap for Guangya
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://gyliu513.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: gyliu513
 github_username:  gyliu513
 
@@ -53,3 +53,11 @@ plugins:
 #   - vendor/ruby/
 exclude:
     - vendor/
+
+comments:
+  provider: utterances
+  utterances:
+    repo: gyliu513/gyliu513.github.io
+    issue_term: pathname
+    label: comments
+    theme: preferred-color-scheme
