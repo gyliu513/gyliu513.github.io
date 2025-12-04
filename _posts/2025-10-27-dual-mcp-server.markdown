@@ -10,7 +10,7 @@ tag: [MCP]
 
 The Model Context Protocol (MCP) has revolutionized how AI assistants interact with products and services. As products increasingly integrate AI capabilities, they face a fundamental architectural decision: How should MCP servers be structured to support both external AI integrations and internal AI features?
 
-We published a blog on Jun 2025 covering MCP Patterns, which highlighted three key patterns:
+We published [a blog on Jun 2025 covering MCP Patterns](https://gyliu513.github.io/jekyll/update/2025/06/10/mcp-pattern.html), which highlighted three key patterns:
 - **Capability-Level MCP Server** for high-level business intent abstraction
 - **Product-Level MCP Server** for wrapping stable product APIs
 - **Component-Level MCP Server** for fine-grained, microservice-level automation
