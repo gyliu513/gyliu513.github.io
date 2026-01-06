@@ -37,16 +37,16 @@ graph TB
     end
 ```
 
-| Dimension | LlamaStack | LangChain Suite |
-|-----------|-----------|-----------------|
-| **Product Composition** | Unified open-source platform | Open-source framework + Commercial platform |
-| **Positioning** | Infrastructure layer + API standards | Application framework + Agent engineering platform |
-| **Architecture** | Service-oriented (Server/Client) | Library-based (Python SDK) + SaaS platform |
-| **Core Value** | Unified API + Provider abstraction | Chaining + Agent engineering toolchain |
-| **Deployment** | Standalone server (self-hosted) | Embedded in app + Cloud service |
-| **Provider Switching** | Configuration-driven, zero code changes | Code-driven, requires modifications |
-| **Open Source vs Commercial** | Fully open source | Open-source framework + Commercial platform (LangSmith) |
-| **Use Cases** | Production, multi-environment deployment | Rapid prototyping, full agent lifecycle |
+| Dimension | LangChain Suite | LlamaStack |
+|-----------|-----------------|-----------|
+| **Product Composition** | Open-source framework + Commercial platform | Unified open-source platform |
+| **Positioning** | Application framework + Agent engineering platform | Infrastructure layer + API standards |
+| **Architecture** | Library-based (Python SDK) + SaaS platform | Service-oriented (Server/Client) |
+| **Core Value** | Chaining + Agent engineering toolchain | Unified API + Provider abstraction |
+| **Deployment** | Embedded in app + Cloud service | Standalone server (self-hosted) |
+| **Provider Switching** | Code-driven, requires modifications | Configuration-driven, zero code changes |
+| **Open Source vs Commercial** | Open-source framework + Commercial platform (LangSmith) | Fully open source |
+| **Use Cases** | Rapid prototyping, full agent lifecycle | Production, multi-environment deployment |
 
 ## Core Differences
 
@@ -463,13 +463,13 @@ graph TB
     style LC3 fill:#FF9800,color:#fff
 ```
 
-| Feature | LlamaStack | LangChain (LangSmith) |
-|---------|-----------|----------------------|
-| **Tracing Capability** | ✅ Telemetry API | ✅ LangSmith Tracing |
-| **Debug Tools** | ✅ Built-in telemetry | ✅ Visual debugging interface |
-| **Data Storage** | ✅ Self-hosted | ⚠️ Cloud (commercial) |
-| **Cost** | ✅ Free | ⚠️ Free tier: 5,000 traces/month |
-| **Integration** | ✅ REST API | ✅ SDK integration |
+| Feature | LangChain (LangSmith) | LlamaStack |
+|---------|----------------------|-----------|
+| **Tracing Capability** | ✅ LangSmith Tracing | ✅ Telemetry API |
+| **Debug Tools** | ✅ Visual debugging interface | ✅ Built-in telemetry |
+| **Data Storage** | ⚠️ Cloud (commercial) | ✅ Self-hosted |
+| **Cost** | ⚠️ Free tier: 5,000 traces/month | ✅ Free |
+| **Integration** | ✅ SDK integration | ✅ REST API |
 
 ### Evaluation
 
@@ -495,13 +495,13 @@ graph LR
     style LC5 fill:#FF9800,color:#fff
 ```
 
-| Feature | LlamaStack | LangChain (LangSmith) |
-|---------|-----------|----------------------|
-| **Evaluation API** | ✅ Eval API | ✅ LangSmith Evaluation |
-| **Test Set Management** | ✅ DatasetIO API | ✅ LangSmith Datasets |
-| **Scoring Functions** | ✅ Scoring API | ✅ Evaluators |
-| **Benchmarks** | ✅ Built-in (MMLU, GPQA, etc.) | ✅ Custom evaluation |
-| **Cost** | ✅ Free | ⚠️ Free tier limited |
+| Feature | LangChain (LangSmith) | LlamaStack |
+|---------|----------------------|-----------|
+| **Evaluation API** | ✅ LangSmith Evaluation | ✅ Eval API |
+| **Test Set Management** | ✅ LangSmith Datasets | ✅ DatasetIO API |
+| **Scoring Functions** | ✅ Evaluators | ✅ Scoring API |
+| **Benchmarks** | ✅ Custom evaluation | ✅ Built-in (MMLU, GPQA, etc.) |
+| **Cost** | ⚠️ Free tier limited | ✅ Free |
 
 ### Deployment
 
@@ -523,13 +523,13 @@ graph TB
     style LC3 fill:#FF9800,color:#fff
 ```
 
-| Feature | LlamaStack | LangChain (LangSmith) |
-|---------|-----------|----------------------|
-| **Deployment Method** | ✅ Self-hosted (Docker/Venv) | ✅ LangSmith hosted |
-| **Long-Running Tasks** | ✅ Supported | ✅ Specifically optimized |
-| **Auto-Scaling** | ✅ Via configuration | ✅ Built-in support |
-| **Multi-Environment** | ✅ Local/Cloud/Edge | ⚠️ Primarily cloud |
-| **Cost** | ✅ Free (self-hosting costs) | ⚠️ Pay-per-use |
+| Feature | LangChain (LangSmith) | LlamaStack |
+|---------|----------------------|-----------|
+| **Deployment Method** | ✅ LangSmith hosted | ✅ Self-hosted (Docker/Venv) |
+| **Long-Running Tasks** | ✅ Specifically optimized | ✅ Supported |
+| **Auto-Scaling** | ✅ Built-in support | ✅ Via configuration |
+| **Multi-Environment** | ⚠️ Primarily cloud | ✅ Local/Cloud/Edge |
+| **Cost** | ⚠️ Pay-per-use | ✅ Free (self-hosting costs) |
 
 ### Agent Building Capabilities
 
@@ -554,15 +554,15 @@ graph TB
     style LC2 fill:#2196F3,color:#fff
 ```
 
-| Feature | LlamaStack | LangChain Suite |
-|---------|-----------|----------------|
-| **Agent API** | ✅ Agents API | ✅ LangChain Agents |
-| **Tool Calling** | ✅ Tools API | ✅ LangChain Tools |
-| **Workflow Orchestration** | ✅ Built-in support | ✅ LangGraph (more powerful) |
-| **Complex Tasks** | ✅ Supported | ✅ Deep Agents (specialized) |
-| **No-Code Building** | ❌ Requires code | ✅ Agent Builder (Beta) |
-| **State Management** | ✅ Session/Turn/Step | ✅ LangGraph StateGraph |
-| **Control Flow** | ✅ Built-in | ✅ Fully customizable (LangGraph) |
+| Feature | LangChain Suite | LlamaStack |
+|---------|----------------|-----------|
+| **Agent API** | ✅ LangChain Agents | ✅ Agents API |
+| **Tool Calling** | ✅ LangChain Tools | ✅ Tools API |
+| **Workflow Orchestration** | ✅ LangGraph (more powerful) | ✅ Built-in support |
+| **Complex Tasks** | ✅ Deep Agents (specialized) | ✅ Supported |
+| **No-Code Building** | ✅ Agent Builder (Beta) | ❌ Requires code |
+| **State Management** | ✅ LangGraph StateGraph | ✅ Session/Turn/Step |
+| **Control Flow** | ✅ Fully customizable (LangGraph) | ✅ Built-in |
 
 ## Cost Comparison
 
@@ -900,21 +900,21 @@ graph TB
     style LC6 fill:#FF9800,color:#fff
 ```
 
-| Feature | LlamaStack | LangChain Suite |
-|---------|-----------|----------------|
-| **Nature** | Infrastructure standardization platform | Application framework + Agent engineering platform |
-| **Abstraction Level** | Infrastructure layer | Application layer + Engineering tool layer |
-| **Deployment** | Standalone service (self-hosted) | Embedded in app + Cloud service |
-| **Provider Switching** | Configuration-driven, zero code | Code-driven |
-| **Multi-Language** | ✅ Python, TS, Swift, Kotlin | ⚠️ Primarily Python |
-| **Production Features** | ✅ Built-in (open source) | ✅ Partially open, partially commercial |
-| **Chain Orchestration** | ⚠️ Basic support | ✅ Powerful support (LangGraph) |
-| **Observability** | ✅ Free (Telemetry) | ⚠️ Free tier limited |
-| **Evaluation Tools** | ✅ Free (Eval API) | ⚠️ Free tier limited |
-| **Data Privacy** | ✅ Fully self-hosted | ⚠️ Cloud storage |
-| **Cost** | ✅ Completely free | ⚠️ Commercial features paid |
-| **Learning Curve** | Moderate | Steeper (more features) |
-| **Community Size** | Smaller but growing fast | Very large (100k+ stars) |
+| Feature | LangChain Suite | LlamaStack |
+|---------|----------------|-----------|
+| **Nature** | Application framework + Agent engineering platform | Infrastructure standardization platform |
+| **Abstraction Level** | Application layer + Engineering tool layer | Infrastructure layer |
+| **Deployment** | Embedded in app + Cloud service | Standalone service (self-hosted) |
+| **Provider Switching** | Code-driven | Configuration-driven, zero code |
+| **Multi-Language** | ⚠️ Primarily Python | ✅ Python, TS, Swift, Kotlin |
+| **Production Features** | ✅ Partially open, partially commercial | ✅ Built-in (open source) |
+| **Chain Orchestration** | ✅ Powerful support (LangGraph) | ⚠️ Basic support |
+| **Observability** | ⚠️ Free tier limited | ✅ Free (Telemetry) |
+| **Evaluation Tools** | ⚠️ Free tier limited | ✅ Free (Eval API) |
+| **Data Privacy** | ⚠️ Cloud storage | ✅ Fully self-hosted |
+| **Cost** | ⚠️ Commercial features paid | ✅ Completely free |
+| **Learning Curve** | Steeper (more features) | Moderate |
+| **Community Size** | Very large (100k+ stars) | Smaller but growing fast |
 
 ## Key Takeaways
 
