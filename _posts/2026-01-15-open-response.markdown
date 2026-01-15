@@ -24,7 +24,7 @@ tags:
 - [Technical Analogy: Where OpenResponses Fits](#technical-analogy-where-openresponses-fits)
 - [Why This Is Especially Important for MCP and Agents](#why-this-is-especially-important-for-mcp-and-agents)
 - [Context Compression and Long-Running Agents](#context-compression-and-long-running-agents)
-- [Future Outlook: From De-Facto to De-Jure Standard](#future-outlook-from-de-facto-to-de-jure-standard)
+- [Future Outlook: From De-Facto to Open Standard](#future-outlook-from-de-facto-to-open-standard)
 - [Key Takeaways](#key-takeaways)
 - [Final Thought](#final-thought)
 - [References](#references)
@@ -223,7 +223,7 @@ Responses-style APIs explicitly support:
 
 This is impossible to standardize cleanly on top of raw chat messages.
 
-## Future Outlook: From De-Facto to De-Jure Standard
+## Future Outlook: From De-Facto to Open Standard
 
 Today:
 - OpenAI Responses API is a **de-facto reference implementation**
