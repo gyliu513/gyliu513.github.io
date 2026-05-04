@@ -10,6 +10,9 @@
 
     <!-- Theme -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Mermaid (loaded async; initialized after slides are injected) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 </head>
 <body>
     <!-- Top progress bar -->
@@ -52,6 +55,8 @@
             'slides/01-title.html',
             'slides/02-content.html',
             'slides/03-closing.html',
+            'slides/04-mermaid.html',
+            'slides/05-image.html',
         ];
 
         async function loadSlides() {
@@ -77,6 +82,12 @@
                     String(slideFiles.length).padStart(2, '0');
 
                 new SlidePresentation(talktrackData);
+
+                /* Render all mermaid diagrams after slides are in the DOM */
+                if (window.mermaid) {
+                    mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+                    mermaid.run({ querySelector: '.mermaid' });
+                }
             } catch (err) {
                 console.error(err);
                 container.innerHTML = `

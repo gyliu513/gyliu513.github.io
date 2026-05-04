@@ -1,0 +1,36 @@
+<!-- Slide 04 — Mermaid Chart -->
+<section class="slide">
+    <div class="slide-content">
+
+        <div class="badge badge-purple reveal">Diagram</div>
+        <h2 class="reveal">Architecture Overview</h2>
+
+        <!-- Mermaid diagram container -->
+        <div class="reveal" style="background:var(--bg-secondary); border:1px solid var(--border-subtle); border-radius:8px; padding:28px 24px; margin-top:8px;">
+            <!--
+                Edit the diagram below using Mermaid syntax.
+                Supported types: flowchart, sequenceDiagram, classDiagram,
+                                 stateDiagram, erDiagram, gantt, pie, etc.
+                Docs: https://mermaid.js.org/
+            -->
+            <div class="mermaid" style="display:flex; justify-content:center;">
+flowchart LR
+    A([Client]) -->|request| B[API Gateway]
+    B --> C[Service A]
+    B --> D[Service B]
+    C --> E[(Database)]
+    D --> E
+    style A fill:#3794ff22,stroke:#3794ff,color:#cccccc
+    style B fill:#dcdcaa22,stroke:#dcdcaa,color:#cccccc
+    style C fill:#4ec9b022,stroke:#4ec9b0,color:#cccccc
+    style D fill:#c586c022,stroke:#c586c0,color:#cccccc
+    style E fill:#ce917822,stroke:#ce9178,color:#cccccc
+            </div>
+        </div>
+
+        <p class="text-muted reveal mt-md" style="font-size:13px; text-align:center;">
+            Edit <code>slides/04-mermaid.html</code> to change the diagram
+        </p>
+
+    </div>
+</section>
