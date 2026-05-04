@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Presentation</title>
+
+    <!-- Monospace font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap">
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top progress bar -->
+    <div class="progress-indicator" id="progress"></div>
+
+    <!-- Right-side navigation dots -->
+    <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+    <!-- Bottom-left slide counter -->
+    <div class="slide-counter">
+        <span class="current" id="currentSlide">01</span>
+        <span class="text-faint"> / </span>
+        <span id="totalSlides">00</span>
+    </div>
+
+    <!-- Slides injected here -->
+    <main id="slides-container"></main>
+
+    <!-- Presenter notes overlay (press T to toggle, Esc to close) -->
+    <aside id="talktrack" class="talktrack" aria-label="Speaker notes" hidden>
+        <div class="talktrack-header">
+            <span class="talktrack-badge" id="talktrackCue"></span>
+            <button id="talktrackClose" class="talktrack-close" aria-label="Close speaker notes">✕</button>
+        </div>
+        <h3 class="talktrack-title" id="talktrackTitle"></h3>
+        <p class="talktrack-notes" id="talktrackNotes"></p>
+        <div class="talktrack-footer">
+            <span id="talktrackSlide" class="talktrack-slide-ref"></span>
+            <span class="talktrack-hint">T toggle · Esc close</span>
+        </div>
+    </aside>
+
+    <script>
+        /* -----------------------------------------------
+           SLIDE LOADER
+           Add/remove entries in slideFiles to manage your
+           deck. Each file lives in the slides/ subfolder.
+           ----------------------------------------------- */
+        const slideFiles = [
+            'slides/01-title.html',
+            'slides/02-content.html',
+            'slides/03-closing.html',
+        ];
+
+        async function loadSlides() {
+            const container = document.getElementById('slides-container');
+
+            const talktrackPromise = fetch('talktrack.json')
+                .then(r => r.ok ? r.json() : [])
+                .catch(() => []);
+
+            try {
+                const [slideContents, talktrackData] = await Promise.all([
+                    Promise.all(slideFiles.map(f =>
+                        fetch(f).then(r => {
+                            if (!r.ok) throw new Error(`Failed to load ${f}`);
+                            return r.text();
+                        })
+                    )),
+                    talktrackPromise,
+                ]);
+
+                container.innerHTML = slideContents.join('\n');
+                document.getElementById('totalSlides').textContent =
+                    String(slideFiles.length).padStart(2, '0');
+
+                new SlidePresentation(talktrackData);
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+                    <section class="slide" style="align-items:center;text-align:center;">
+                        <div class="slide-content">
+                            <h2 style="color:var(--red);">Error Loading Slides</h2>
+                            <p class="text-secondary" style="margin-top:16px;">${err.message}</p>
+                            <p class="text-muted" style="margin-top:12px;">
+                                Serve this folder via <code>npx serve .</code> or
+                                <code>python -m http.server</code>
+                            </p>
+                        </div>
+                    </section>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSlides);
+    </script>
+
+    <script src="presentation.js"></script>
+</body>
+</html>

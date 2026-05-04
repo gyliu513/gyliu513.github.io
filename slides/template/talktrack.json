@@ -1,0 +1,17 @@
+[
+    {
+        "title": "Opening",
+        "cue": "intro",
+        "notes": "Welcome the audience. Introduce yourself briefly and set the context for the talk."
+    },
+    {
+        "title": "Main Point",
+        "cue": "demo",
+        "notes": "Walk through the core content. Pause for questions if needed."
+    },
+    {
+        "title": "Closing",
+        "cue": "outro",
+        "notes": "Summarize key takeaways. Share links and invite follow-up questions."
+    }
+]
