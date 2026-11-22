@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 724" width="960" height="724" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#374151"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker>
+  </defs>
+  <rect width="960" height="724" fill="#ffffff"/>
+  <text xml:space="preserve" x="480" y="36" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2937">Figure 9  One request end to end, and how the router scores (example)</text>
+
+  <!-- steps -->
+  <g font-size="12">
+    <rect x="20" y="62" width="410" height="66" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <circle cx="44" cy="95" r="14" fill="#2563eb"/><text x="44" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">1</text>
+    <text x="68" y="88" font-size="14" font-weight="700" fill="#1e3a8a">Request arrives, tokenize</text>
+    <text x="68" y="110" fill="#1e40af">The router turns the prompt into a token sequence</text>
+
+    <rect x="20" y="144" width="410" height="66" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <circle cx="44" cy="177" r="14" fill="#2563eb"/><text x="44" y="182" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">2</text>
+    <text x="68" y="170" font-size="14" font-weight="700" fill="#1e3a8a">Compute the prefix fingerprint</text>
+    <text x="68" y="192" fill="#1e40af">Split into blocks + chained hash → key0 … key3 (see Fig. 8)</text>
+
+    <rect x="20" y="226" width="410" height="66" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <circle cx="44" cy="259" r="14" fill="#2563eb"/><text x="44" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">3</text>
+    <text x="68" y="252" font-size="14" font-weight="700" fill="#1e3a8a">Query the global index, count contiguous hits</text>
+    <text x="68" y="274" fill="#1e40af">Per instance: count from key0, stop at the first miss</text>
+
+    <rect x="20" y="308" width="410" height="66" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <circle cx="44" cy="341" r="14" fill="#2563eb"/><text x="44" y="346" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">4</text>
+    <text x="68" y="334" font-size="14" font-weight="700" fill="#1e3a8a">Combine scores, pick an instance</text>
+    <text x="68" y="356" fill="#1e40af">Prefix score (weighted by tier) + load score; highest wins</text>
+
+    <rect x="20" y="390" width="410" height="66" rx="8" fill="#f0fdf4" stroke="#16a34a"/>
+    <circle cx="44" cy="423" r="14" fill="#16a34a"/><text x="44" y="428" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">5</text>
+    <text x="68" y="416" font-size="14" font-weight="700" fill="#14532d">Instance runs: computes only the missed part</text>
+    <text x="68" y="438" fill="#166534">Hit KV is reused (CPU / storage tiers load back to GPU first)</text>
+
+    <rect x="20" y="472" width="410" height="66" rx="8" fill="#fff7ed" stroke="#ea580c"/>
+    <circle cx="44" cy="505" r="14" fill="#ea580c"/><text x="44" y="510" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">6</text>
+    <text x="68" y="498" font-size="14" font-weight="700" fill="#7c2d12">Write back to the index</text>
+    <text x="68" y="520" fill="#9a3412">New block stored / old one evicted → KV event → index updated</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.5">
+    <line x1="225" y1="128" x2="225" y2="142" marker-end="url(#k)"/>
+    <line x1="225" y1="210" x2="225" y2="224" marker-end="url(#k)"/>
+    <line x1="225" y1="292" x2="225" y2="306" marker-end="url(#k)"/>
+    <line x1="225" y1="374" x2="225" y2="388" marker-end="url(#k)"/>
+    <line x1="225" y1="456" x2="225" y2="470" marker-end="url(#k)"/>
+  </g>
+  <path d="M20,505 L8,505 L8,259 L18,259" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#o)"/>
+  <rect x="20" y="552" width="410" height="92" rx="8" fill="#ffffff" stroke="#fdba74" stroke-dasharray="4 3"/>
+  <g font-size="12" fill="#9a3412">
+    <text x="34" y="580">Optional speculative indexing: record an entry as soon as</text>
+    <text x="34" y="600">step 4 picks an instance, so the next request with the same</text>
+    <text x="34" y="620">prefix can hit without waiting for the step 6 KV event.</text>
+  </g>
+
+  <!-- example table -->
+  <rect x="450" y="62" width="490" height="240" rx="10" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="466" y="86" font-size="14" font-weight="700" fill="#111827">Step 3 example: a 4-block request, as seen in the index</text>
+  <g font-size="12" text-anchor="middle" fill="#374151" font-weight="700">
+    <text x="575" y="116">key0</text><text x="649" y="116">key1</text><text x="723" y="116">key2</text><text x="797" y="116">key3</text>
+    <text x="886" y="108">Contiguous hits</text><text x="886" y="123">(weighted)</text>
+  </g>
+  <g font-size="12" font-weight="700" fill="#111827">
+    <text x="462" y="147">Instance A</text><text x="462" y="187">Instance B</text><text x="462" y="227">Instance C</text>
+  </g>
+  <g font-size="12" text-anchor="middle">
+    <!-- A -->
+    <rect x="540" y="126" width="70" height="32" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="575" y="147" fill="#14532d">GPU</text>
+    <rect x="614" y="126" width="70" height="32" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="649" y="147" fill="#14532d">GPU</text>
+    <rect x="688" y="126" width="70" height="32" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="723" y="147" fill="#14532d">GPU</text>
+    <rect x="762" y="126" width="70" height="32" rx="4" fill="#f3f4f6" stroke="#d1d5db"/><text x="797" y="147" fill="#9ca3af">miss</text>
+    <text x="886" y="139" fill="#111827">3 blocks:</text><text x="886" y="154" fill="#111827">3×1.0 = 3.0</text>
+    <!-- B -->
+    <rect x="540" y="166" width="70" height="32" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="575" y="187" fill="#14532d">GPU</text>
+    <rect x="614" y="166" width="70" height="32" rx="4" fill="#bae6fd" stroke="#0284c7"/><text x="649" y="187" fill="#0c4a6e">CPU</text>
+    <rect x="688" y="166" width="70" height="32" rx="4" fill="#f3f4f6" stroke="#d1d5db"/><text x="723" y="187" fill="#9ca3af">miss</text>
+    <rect x="762" y="166" width="70" height="32" rx="4" fill="#bae6fd" stroke="#0284c7" opacity="0.35"/><text x="797" y="179" font-size="11" fill="#6b7280">CPU</text><text x="797" y="192" font-size="11" fill="#6b7280">not counted</text>
+    <text x="886" y="179" fill="#111827">2 blocks:</text><text x="886" y="194" fill="#111827">1.0+0.8 = 1.8</text>
+    <!-- C -->
+    <rect x="540" y="206" width="70" height="32" rx="4" fill="#bbf7d0" stroke="#16a34a"/><text x="575" y="227" fill="#14532d">GPU</text>
+    <rect x="614" y="206" width="70" height="32" rx="4" fill="#f3f4f6" stroke="#d1d5db"/><text x="649" y="227" fill="#9ca3af">miss</text>
+    <rect x="688" y="206" width="70" height="32" rx="4" fill="#bbf7d0" stroke="#16a34a" opacity="0.35"/><text x="723" y="219" font-size="11" fill="#6b7280">GPU</text><text x="723" y="232" font-size="11" fill="#6b7280">not counted</text>
+    <rect x="762" y="206" width="70" height="32" rx="4" fill="#f3f4f6" stroke="#d1d5db"/><text x="797" y="227" fill="#9ca3af">miss</text>
+    <text x="886" y="219" fill="#111827">1 block:</text><text x="886" y="234" fill="#111827">1.0</text>
+  </g>
+  <g font-size="12" fill="#4b5563">
+    <text x="466" y="264">"Not counted": the chain already broke earlier. KV can only be</text>
+    <text x="466" y="282">reused as a prefix, so blocks after the break are of no use.</text>
+  </g>
+
+  <!-- scoring table -->
+  <rect x="450" y="316" width="490" height="252" rx="10" fill="#fefce8" stroke="#ca8a04"/>
+  <text x="466" y="340" font-size="14" font-weight="700" fill="#713f12">Step 4 example: score prefix and load together</text>
+  <g font-size="12" fill="#713f12" font-weight="700" text-anchor="middle">
+    <text x="494" y="370">Instance</text>
+    <text x="600" y="362">Prefix score</text><text x="600" y="378">weighted hits ÷ 4</text>
+    <text x="736" y="362">Load score</text><text x="736" y="378">1 − GPU memory usage</text>
+    <text x="866" y="362">Total</text><text x="866" y="378">2×prefix + 1×load</text>
+  </g>
+  <line x1="462" y1="388" x2="928" y2="388" stroke="#ca8a04"/>
+  <g font-size="13" text-anchor="middle" fill="#111827">
+    <rect x="462" y="394" width="466" height="32" rx="4" fill="#dcfce7"/>
+    <text x="494" y="415" font-weight="700">A</text><text x="600" y="415">0.75</text><text x="736" y="415">1 − 0.9 = 0.10</text><text x="866" y="415" font-weight="700" fill="#15803d">1.60  ← picked</text>
+    <text x="494" y="453" font-weight="700">B</text><text x="600" y="453">0.45</text><text x="736" y="453">1 − 0.4 = 0.60</text><text x="866" y="453">1.50</text>
+    <text x="494" y="487" font-weight="700">C</text><text x="600" y="487">0.25</text><text x="736" y="487">1 − 0.2 = 0.80</text><text x="866" y="487">1.30</text>
+  </g>
+  <g font-size="12" fill="#713f12">
+    <text x="466" y="516">A has the most hits and is not full yet, so A is picked. If A keeps</text>
+    <text x="466" y="534">getting busier, its load score drops and B wins instead. Cache hits</text>
+    <text x="466" y="552">and load balancing keep each other in check here.</text>
+  </g>
+
+  <rect x="450" y="580" width="490" height="64" rx="8" fill="#f3f4f6"/>
+  <g font-size="12" fill="#4b5563">
+    <text x="466" y="600">Note: the 2:1 scoring weights are only an example; tune them for</text>
+    <text x="466" y="617">your workload. The tier weights GPU 1.0 and CPU 0.8 are llm-d</text>
+    <text x="466" y="634">defaults (slower tiers get lower weights).</text>
+  </g>
+
+  <rect x="20" y="658" width="920" height="52" rx="8" fill="#eef2ff"/>
+  <g font-size="13" fill="#312e81" text-anchor="middle">
+    <text x="480" y="679">The read path (1→5) decides where the request goes; the write path (6) keeps the index in step with each instance's</text>
+    <text x="480" y="698">real cache changes. Both paths share the same prefix fingerprint algorithm.</text>
+  </g>
+</svg>

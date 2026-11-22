@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 716" width="960" height="716" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <rect width="960" height="716" fill="#ffffff"/>
+  <text xml:space="preserve" x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2937">Figure 11  Who benefits most: requests that share a long prefix</text>
+  <text x="480" y="62" text-anchor="middle" font-size="14" fill="#4b5563">In each card, the 3 bars show the prompt structure of 3 requests, in token order from left to right</text>
+
+  <!-- Card 1: multi-turn -->
+  <rect x="30" y="80" width="290" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="46" y="106" font-size="16" font-weight="700" fill="#0f172a">Multi-turn chat</text>
+  <g font-size="11" fill="#64748b"><text x="46" y="130">Turn 1</text><text x="46" y="150">Turn 2</text><text x="46" y="170">Turn 3</text></g>
+  <rect x="102" y="120" width="60" height="12" fill="#f97316"/>
+  <rect x="102" y="140" width="60" height="12" fill="#3b82f6"/><rect x="162" y="140" width="50" height="12" fill="#f97316"/>
+  <rect x="102" y="160" width="110" height="12" fill="#3b82f6"/><rect x="212" y="160" width="50" height="12" fill="#f97316"/>
+  <g font-size="13" fill="#334155"><text x="46" y="200">Every turn carries the full history;</text><text x="46" y="218">only the latest message is new</text></g>
+
+  <!-- Card 2: agent -->
+  <rect x="335" y="80" width="290" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="351" y="106" font-size="16" font-weight="700" fill="#0f172a">Agent / tool calling</text>
+  <g font-size="11" fill="#64748b"><text x="351" y="130">Step 1</text><text x="351" y="150">Step 2</text><text x="351" y="170">Step 3</text></g>
+  <rect x="407" y="120" width="110" height="12" fill="#3b82f6"/><rect x="517" y="120" width="30" height="12" fill="#f97316"/>
+  <rect x="407" y="140" width="140" height="12" fill="#3b82f6"/><rect x="547" y="140" width="30" height="12" fill="#f97316"/>
+  <rect x="407" y="160" width="170" height="12" fill="#3b82f6"/><rect x="577" y="160" width="30" height="12" fill="#f97316"/>
+  <g font-size="13" fill="#334155"><text x="351" y="200">Long system prompt + tool definitions</text><text x="351" y="218">+ an ever-growing call trace</text></g>
+
+  <!-- Card 3: RAG -->
+  <rect x="640" y="80" width="290" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="656" y="106" font-size="16" font-weight="700" fill="#0f172a">RAG Q&amp;A</text>
+  <g font-size="11" fill="#64748b"><text x="656" y="130">Query A</text><text x="656" y="150">Query B</text><text x="656" y="170">Query C</text></g>
+  <rect x="712" y="120" width="140" height="12" fill="#3b82f6"/><rect x="852" y="120" width="40" height="12" fill="#f97316"/>
+  <rect x="712" y="140" width="140" height="12" fill="#3b82f6"/><rect x="852" y="140" width="60" height="12" fill="#f97316"/>
+  <rect x="712" y="160" width="140" height="12" fill="#3b82f6"/><rect x="852" y="160" width="30" height="12" fill="#f97316"/>
+  <g font-size="13" fill="#334155"><text x="656" y="200">The same popular documents are</text><text x="656" y="218">cited again and again; they can be</text><text x="656" y="236">reused only if placed before the question</text></g>
+
+  <!-- Card 4: system prompt / few-shot -->
+  <rect x="30" y="270" width="290" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="46" y="296" font-size="16" font-weight="700" fill="#0f172a">Long system prompt / Few-shot</text>
+  <g font-size="11" fill="#64748b"><text x="46" y="320">User A</text><text x="46" y="340">User B</text><text x="46" y="360">User C</text></g>
+  <rect x="102" y="310" width="160" height="12" fill="#3b82f6"/><rect x="262" y="310" width="30" height="12" fill="#f97316"/>
+  <rect x="102" y="330" width="160" height="12" fill="#3b82f6"/><rect x="262" y="330" width="50" height="12" fill="#f97316"/>
+  <rect x="102" y="350" width="160" height="12" fill="#3b82f6"/><rect x="262" y="350" width="20" height="12" fill="#f97316"/>
+  <g font-size="13" fill="#334155"><text x="46" y="390">The same prompt / example template</text><text x="46" y="408">is shared by all users</text></g>
+
+  <!-- Card 5: code assistant -->
+  <rect x="335" y="270" width="290" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="351" y="296" font-size="16" font-weight="700" fill="#0f172a">Coding assistant</text>
+  <g font-size="11" fill="#64748b"><text x="351" y="320">Request 1</text><text x="351" y="340">Request 2</text><text x="351" y="360">Request 3</text></g>
+  <rect x="407" y="310" width="150" height="12" fill="#3b82f6"/><rect x="557" y="310" width="40" height="12" fill="#f97316"/>
+  <rect x="407" y="330" width="150" height="12" fill="#3b82f6"/><rect x="557" y="330" width="60" height="12" fill="#f97316"/>
+  <rect x="407" y="350" width="150" height="12" fill="#3b82f6"/><rect x="557" y="350" width="25" height="12" fill="#f97316"/>
+  <g font-size="13" fill="#334155"><text x="351" y="390">The same repository context is sent</text><text x="351" y="408">again and again; only the current</text><text x="351" y="426">edit position changes</text></g>
+
+  <!-- Card 6: batch / eval -->
+  <rect x="640" y="270" width="290" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="656" y="296" font-size="16" font-weight="700" fill="#0f172a">Batch / evaluation</text>
+  <g font-size="11" fill="#64748b"><text x="656" y="320">Sample 1</text><text x="656" y="340">Sample 2</text><text x="656" y="360">Sample 3</text></g>
+  <rect x="712" y="310" width="120" height="12" fill="#3b82f6"/><rect x="832" y="310" width="60" height="12" fill="#f97316"/>
+  <rect x="712" y="330" width="120" height="12" fill="#3b82f6"/><rect x="832" y="330" width="70" height="12" fill="#f97316"/>
+  <rect x="712" y="350" width="120" height="12" fill="#3b82f6"/><rect x="832" y="350" width="50" height="12" fill="#f97316"/>
+  <g font-size="13" fill="#334155"><text x="656" y="390">One template × many samples</text><text x="656" y="408">The template part is computed only once</text></g>
+
+  <!-- Low benefit -->
+  <rect x="30" y="462" width="900" height="168" rx="10" fill="#fef2f2" stroke="#f87171" stroke-width="1.5"/>
+  <text x="46" y="488" font-size="16" font-weight="700" fill="#991b1b">Cases with smaller gains</text>
+  <!-- col 1 -->
+  <rect x="50" y="504" width="70" height="12" fill="#f97316"/>
+  <rect x="50" y="522" width="110" height="12" fill="#f97316"/>
+  <rect x="50" y="540" width="90" height="12" fill="#f97316"/>
+  <text x="50" y="574" font-size="13" font-weight="700" fill="#7f1d1d">Every request is completely different</text>
+  <text x="50" y="592" font-size="12" fill="#7f1d1d">Almost no prefix to share</text>
+  <!-- col 2 -->
+  <rect x="350" y="504" width="20" height="12" fill="#3b82f6"/><rect x="370" y="504" width="15" height="12" fill="#f97316"/>
+  <rect x="350" y="522" width="20" height="12" fill="#3b82f6"/><rect x="370" y="522" width="20" height="12" fill="#f97316"/>
+  <rect x="350" y="540" width="20" height="12" fill="#3b82f6"/><rect x="370" y="540" width="10" height="12" fill="#f97316"/>
+  <text x="350" y="574" font-size="13" font-weight="700" fill="#7f1d1d">Very short prompts</text>
+  <text x="350" y="592" font-size="12" fill="#7f1d1d">Prefill is already fast; there is little to save</text>
+  <!-- col 3 -->
+  <rect x="650" y="504" width="20" height="12" fill="#3b82f6"/><rect x="670" y="504" width="15" height="12" fill="#f97316"/><rect x="685" y="504" width="90" height="12" fill="#cbd5e1" stroke="#64748b" stroke-dasharray="3,2"/>
+  <rect x="650" y="522" width="20" height="12" fill="#3b82f6"/><rect x="670" y="522" width="15" height="12" fill="#f97316"/><rect x="685" y="522" width="100" height="12" fill="#cbd5e1" stroke="#64748b" stroke-dasharray="3,2"/>
+  <rect x="650" y="540" width="20" height="12" fill="#3b82f6"/><rect x="670" y="540" width="15" height="12" fill="#f97316"/><rect x="685" y="540" width="80" height="12" fill="#cbd5e1" stroke="#64748b" stroke-dasharray="3,2"/>
+  <text x="650" y="574" font-size="13" font-weight="700" fill="#7f1d1d">Output much longer than input</text>
+  <text x="650" y="592" font-size="12" fill="#7f1d1d">Most of the time is spent in Decode</text>
+  <text x="480" y="618" text-anchor="middle" font-size="13" fill="#991b1b">Little Prefill work can be reused here; KV Cache-aware routing helps mainly through its load-balancing part</text>
+
+  <!-- legend + takeaway -->
+  <rect x="30" y="646" width="900" height="56" rx="8" fill="#f3f4f6"/>
+  <g font-size="13" fill="#374151">
+    <rect x="50" y="656" width="28" height="12" fill="#3b82f6"/><text x="86" y="667">Reusable shared prefix</text>
+    <rect x="250" y="656" width="28" height="12" fill="#f97316"/><text x="286" y="667">Part unique to each request</text>
+    <rect x="480" y="656" width="28" height="12" fill="#cbd5e1" stroke="#64748b" stroke-dasharray="3,2"/><text x="516" y="667">Output tokens generated by the model</text>
+  </g>
+  <text x="480" y="691" text-anchor="middle" font-size="13" fill="#111827">Pattern: <tspan font-weight="700">the longer the blue part and the more requests reuse it</tspan>, the bigger the gain from KV Cache reuse and cache-aware routing</text>
+</svg>

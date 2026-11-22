@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 714" width="960" height="714" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+    <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/></marker>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker>
+  </defs>
+  <rect width="960" height="714" fill="#ffffff"/>
+  <text xml:space="preserve" x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2937">Figure 10  P/D disaggregation: moving the KV Cache between nodes</text>
+  <text x="480" y="62" text-anchor="middle" font-size="13" fill="#4b5563">Prefill (processes the prompt) and Decode (generates token by token) run on different nodes; the router decides each request's path</text>
+
+  <!-- request + router -->
+  <rect x="40" y="88" width="150" height="48" rx="8" fill="#f3f4f6" stroke="#6b7280"/>
+  <text x="115" y="117" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">User request</text>
+  <line x1="190" y1="112" x2="296" y2="112" stroke="#4b5563" stroke-width="2" marker-end="url(#ak)"/>
+  <rect x="300" y="80" width="360" height="64" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="480" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#713f12">llm-d Router (prefix-based P/D decision)</text>
+  <text x="480" y="128" text-anchor="middle" font-size="13" fill="#854d0e">Is the prefix cached on the Decode node long enough?</text>
+
+  <!-- path B: P then D -->
+  <polyline points="430,144 430,172 160,172 160,196" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ab)"/>
+  <rect x="180" y="160" width="230" height="24" rx="12" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="295" y="177" text-anchor="middle" font-size="12" fill="#1e3a8a">Too short: Prefill first, then Decode</text>
+  <!-- path A: direct D -->
+  <polyline points="530,144 530,172 800,172 800,196" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ag)"/>
+  <rect x="540" y="160" width="250" height="24" rx="12" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="665" y="177" text-anchor="middle" font-size="11" fill="#14532d">Long enough: skip separate Prefill, run on D</text>
+
+  <!-- Prefill node -->
+  <rect x="30" y="200" width="260" height="160" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="160" y="228" text-anchor="middle" font-size="17" font-weight="700" fill="#1e3a8a">Prefill node</text>
+  <g font-size="13" fill="#1e40af" text-anchor="middle">
+    <text x="160" y="254">Compute-bound</text>
+    <text x="160" y="276">Processes the whole prompt in parallel</text>
+    <text x="160" y="298">Builds the full KV Cache in one pass</text>
+  </g>
+  <g fill="#a78bfa" stroke="#6d28d9">
+    <rect x="62" y="316" width="22" height="22" rx="3"/><rect x="88" y="316" width="22" height="22" rx="3"/><rect x="114" y="316" width="22" height="22" rx="3"/><rect x="140" y="316" width="22" height="22" rx="3"/><rect x="166" y="316" width="22" height="22" rx="3"/><rect x="192" y="316" width="22" height="22" rx="3"/><rect x="218" y="316" width="22" height="22" rx="3"/><rect x="244" y="316" width="22" height="22" rx="3"/>
+  </g>
+
+  <!-- KV transfer -->
+  <text x="480" y="226" text-anchor="middle" font-size="16" font-weight="700" fill="#5b21b6">KV transfer</text>
+  <text x="480" y="248" text-anchor="middle" font-size="13" fill="#4c1d95">Over fast links such as RDMA / NVLink</text>
+  <text x="480" y="268" text-anchor="middle" font-size="13" fill="#4c1d95">(for example, the NIXL library)</text>
+  <line x1="294" y1="288" x2="664" y2="288" stroke="#7c3aed" stroke-width="5" marker-end="url(#ap)"/>
+  <g fill="#a78bfa" stroke="#6d28d9">
+    <rect x="420" y="300" width="18" height="18" rx="3"/><rect x="444" y="300" width="18" height="18" rx="3"/><rect x="468" y="300" width="18" height="18" rx="3"/><rect x="492" y="300" width="18" height="18" rx="3"/><rect x="516" y="300" width="18" height="18" rx="3"/>
+  </g>
+  <text x="480" y="344" text-anchor="middle" font-size="12" fill="#4c1d95">What moves is the KV Cache that Prefill computed</text>
+
+  <!-- Decode node -->
+  <rect x="670" y="200" width="260" height="160" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="800" y="228" text-anchor="middle" font-size="17" font-weight="700" fill="#14532d">Decode node</text>
+  <g font-size="13" fill="#166534" text-anchor="middle">
+    <text x="800" y="254">Memory-bandwidth-bound</text>
+    <text x="800" y="276" font-size="12">Generates token by token from received KV</text>
+  </g>
+  <g fill="#a78bfa" stroke="#6d28d9">
+    <rect x="692" y="292" width="20" height="20" rx="3"/><rect x="716" y="292" width="20" height="20" rx="3"/><rect x="740" y="292" width="20" height="20" rx="3"/><rect x="764" y="292" width="20" height="20" rx="3"/>
+  </g>
+  <g fill="#fde68a" stroke="#d97706">
+    <rect x="796" y="292" width="20" height="20" rx="3"/><rect x="820" y="292" width="20" height="20" rx="3"/><rect x="844" y="292" width="20" height="20" rx="3"/>
+  </g>
+  <text x="882" y="307" font-size="12" fill="#92400e">...</text>
+  <g font-size="12" fill="#166534" text-anchor="middle">
+    <text x="800" y="332">KV of new tokens is appended;</text>
+    <text x="800" y="348">the result goes back to the user</text>
+  </g>
+
+  <!-- handoff note -->
+  <rect x="30" y="378" width="900" height="128" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="50" y="404" font-size="15" font-weight="700" fill="#4c1d95">The KV Cache is the "handoff" between Prefill and Decode</text>
+  <g font-size="13" fill="#3b0764">
+    <text x="50" y="430">Transfer size = prefix length × KV size per token. The longer the prompt, the more data to move,</text>
+    <text x="50" y="449">and network bandwidth is a cost too.</text>
+    <text x="50" y="474">Prefix reuse also cuts transfer: the part of the prefix already cached on the Decode node does not need to move. With a</text>
+    <text x="50" y="493">long enough hit, even the Prefill node can be skipped.</text>
+  </g>
+
+  <!-- benefits -->
+  <g text-anchor="middle">
+    <rect x="30" y="522" width="290" height="122" rx="10" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="175" y="548" font-size="15" font-weight="700" fill="#0f172a">The two stages do not interfere</text>
+    <g font-size="13" fill="#334155">
+      <text x="175" y="574">Prefill for a long prompt no longer</text>
+      <text x="175" y="592">interrupts the token-by-token generation</text>
+      <text x="175" y="610">already running for other requests</text>
+    </g>
+
+    <rect x="335" y="522" width="290" height="122" rx="10" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="480" y="548" font-size="15" font-weight="700" fill="#0f172a">Scale each stage independently</text>
+    <g font-size="13" fill="#334155">
+      <text x="480" y="574">Choose hardware and counts for P and D</text>
+      <text x="480" y="592">by each one's bottleneck. More long</text>
+      <text x="480" y="610">prompts: add P. More concurrent</text>
+      <text x="480" y="628">generation: add D.</text>
+    </g>
+
+    <rect x="640" y="522" width="290" height="122" rx="10" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="785" y="548" font-size="15" font-weight="700" fill="#0f172a">Steadier TTFT and TPOT</text>
+    <g font-size="13" fill="#334155">
+      <text x="785" y="574">Time to first token (TTFT) and the</text>
+      <text x="785" y="592">gap between output tokens (TPOT)</text>
+      <text x="785" y="610">become more predictable</text>
+    </g>
+  </g>
+
+  <!-- legend -->
+  <rect x="30" y="660" width="900" height="38" rx="8" fill="#f3f4f6"/>
+  <g font-size="12" fill="#374151">
+    <line x1="46" y1="679" x2="82" y2="679" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ab)"/><text x="90" y="683">P → D path</text>
+    <line x1="172" y1="679" x2="208" y2="679" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ag)"/><text x="216" y="683">Prefix hit, straight to D</text>
+    <line x1="370" y1="679" x2="406" y2="679" stroke="#7c3aed" stroke-width="4" marker-end="url(#ap)"/><text x="414" y="683">KV moved across nodes</text>
+    <rect x="550" y="671" width="16" height="16" rx="3" fill="#a78bfa" stroke="#6d28d9"/><text x="572" y="683">KV Cache blocks of the prompt</text>
+    <rect x="764" y="671" width="16" height="16" rx="3" fill="#fde68a" stroke="#d97706"/><text x="786" y="683">KV of new Decode tokens</text>
+  </g>
+</svg>
