@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="960" height="700" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#374151"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker>
+    <marker id="p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker>
+  </defs>
+  <rect width="960" height="700" fill="#ffffff"/>
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2937">Figure 7&#160;&#160;How the Router Knows "Who Cached What": Approximate vs Precise</text>
+
+  <!-- approx -->
+  <rect x="20" y="60" width="450" height="506" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="245" y="90" text-anchor="middle" font-size="18" font-weight="700" fill="#4c1d95">Approximate mode: router-side bookkeeping</text>
+  <text x="245" y="114" text-anchor="middle" font-size="13" fill="#5b21b6">"The prefixes I sent to an instance are</text>
+  <text x="245" y="131" text-anchor="middle" font-size="13" fill="#5b21b6">probably still cached there"</text>
+  <rect x="40" y="148" width="180" height="56" rx="8" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="130" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">Router</text>
+  <text x="130" y="192" text-anchor="middle" font-size="12" fill="#6d28d9">Sends request to instance 2</text>
+  <rect x="270" y="148" width="180" height="56" rx="8" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="360" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">Instance 2</text>
+  <text x="360" y="192" text-anchor="middle" font-size="12" fill="#6b7280">Needs to report nothing</text>
+  <line x1="220" y1="176" x2="266" y2="176" stroke="#374151" stroke-width="2" marker-end="url(#k)"/>
+  <line x1="130" y1="204" x2="130" y2="230" stroke="#7c3aed" stroke-width="2" marker-end="url(#p)"/>
+  <rect x="40" y="234" width="410" height="72" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="245" y="256" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">Per-instance LRU of sent prefix fingerprints</text>
+  <text x="245" y="276" text-anchor="middle" font-size="12" fill="#5b21b6">Capacity is estimated from the instance's KV memory size;</text>
+  <text x="245" y="293" text-anchor="middle" font-size="12" fill="#5b21b6">the oldest entries are evicted when it is full</text>
+  <g font-size="13">
+    <text x="40" y="334" font-weight="700" fill="#15803d">Pros</text>
+    <text x="84" y="334" fill="#14532d">No dependencies, works out of the box,</text>
+    <text x="84" y="354" fill="#14532d">needs nothing from the inference engine</text>
+    <text x="84" y="374" fill="#14532d">No extra event stream, low router overhead</text>
+    <text x="40" y="424" font-weight="700" fill="#b91c1c">Cons</text>
+    <text x="84" y="424" fill="#7f1d1d">Cannot see the engine's real evictions; when an</text>
+    <text x="84" y="444" fill="#7f1d1d">instance is short on memory, the router may still</text>
+    <text x="84" y="464" fill="#7f1d1d">"think" the cache is there; it also does not know</text>
+    <text x="84" y="484" fill="#7f1d1d">which tier a block is in</text>
+  </g>
+  <rect x="40" y="504" width="410" height="48" rx="6" fill="#ffffff" stroke="#c4b5fd"/>
+  <text x="245" y="532" text-anchor="middle" font-size="12" fill="#4c1d95">Good for getting started, or where the engine has no KV events</text>
+
+  <!-- precise -->
+  <rect x="490" y="60" width="450" height="506" rx="12" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="715" y="90" text-anchor="middle" font-size="18" font-weight="700" fill="#9a3412">Precise mode: engines report in real time</text>
+  <text x="715" y="114" text-anchor="middle" font-size="13" fill="#9a3412">"I just stored / removed these blocks"; the router</text>
+  <text x="715" y="131" text-anchor="middle" font-size="13" fill="#9a3412">maintains the global KV index from these reports</text>
+  <rect x="510" y="148" width="180" height="56" rx="8" fill="#ffffff" stroke="#ea580c"/>
+  <text x="600" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#7c2d12">Router's global KV index</text>
+  <text x="600" y="192" text-anchor="middle" font-size="12" fill="#9a3412">block key → instance + tier</text>
+  <rect x="740" y="148" width="180" height="56" rx="8" fill="#ffffff" stroke="#16a34a"/>
+  <text x="830" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Inference instance</text>
+  <text x="830" y="192" text-anchor="middle" font-size="12" fill="#166534">KV event publishing enabled</text>
+  <line x1="740" y1="176" x2="694" y2="176" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#o)"/>
+  <text x="717" y="168" text-anchor="middle" font-size="11" fill="#c2410c">Events</text>
+  <line x1="600" y1="204" x2="600" y2="230" stroke="#ea580c" stroke-width="2"/>
+  <rect x="510" y="234" width="410" height="72" rx="8" fill="#ffedd5" stroke="#ea580c"/>
+  <text x="715" y="256" text-anchor="middle" font-size="13" font-weight="700" fill="#7c2d12">Event types:</text>
+  <text x="715" y="273" text-anchor="middle" font-size="13" font-weight="700" fill="#7c2d12">BlockStored / BlockRemoved / AllBlocksCleared</text>
+  <text x="715" y="293" text-anchor="middle" font-size="12" fill="#9a3412">Carry tokens, storage tier (GPU / CPU / storage), and more</text>
+  <g font-size="13">
+    <text x="510" y="334" font-weight="700" fill="#15803d">Pros</text>
+    <text x="562" y="334" fill="#14532d">Reflects the engine's real cache state,</text>
+    <text x="562" y="354" fill="#14532d">including evictions</text>
+    <text x="562" y="374" fill="#14532d">Tells GPU / CPU / storage apart and</text>
+    <text x="562" y="394" fill="#14532d">weights scores by tier</text>
+    <text x="510" y="424" font-weight="700" fill="#b91c1c">Costs</text>
+    <text x="562" y="424" fill="#7f1d1d">The engine must support and enable KV events;</text>
+    <text x="562" y="444" fill="#7f1d1d">the router must be able to reach every instance;</text>
+    <text x="562" y="464" fill="#7f1d1d">events far outnumber requests</text>
+  </g>
+  <rect x="510" y="504" width="410" height="48" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="715" y="523" text-anchor="middle" font-size="12" fill="#9a3412">Good for production that wants high hit rates</text>
+  <text x="715" y="540" text-anchor="middle" font-size="12" fill="#9a3412">and uses CPU / storage offloading</text>
+
+  <!-- common output -->
+  <path d="M245,566 L245,592 L430,592 L430,616" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#k)"/>
+  <path d="M715,566 L715,592 L530,592 L530,616" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#k)"/>
+  <rect x="120" y="620" width="720" height="62" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+  <text x="480" y="646" text-anchor="middle" font-size="14" font-weight="700" fill="#713f12">Both produce the same result: how much prefix each instance hits</text>
+  <text x="480" y="668" text-anchor="middle" font-size="13" fill="#854d0e">The scoring logic after this is identical, so the two modes are interchangeable (llm-d supports both)</text>
+</svg>

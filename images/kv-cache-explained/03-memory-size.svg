@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 718" width="960" height="718" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <rect width="960" height="718" fill="#ffffff"/>
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2937" xml:space="preserve">Figure 3  How Big Is KV Cache: Calculating GPU Memory Usage</text>
+  <text x="480" y="62" text-anchor="middle" font-size="14" fill="#4b5563">For every token generated or read in, each layer stores one Key and one Value for it</text>
+
+  <!-- Formula panel -->
+  <rect x="24" y="78" width="912" height="214" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="44" y="104" font-size="15" font-weight="700" fill="#5b21b6">Formula</text>
+
+  <!-- lhs -->
+  <rect x="40" y="116" width="168" height="62" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="124" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="#4c1d95">KV size</text>
+  <text x="124" y="163" text-anchor="middle" font-size="14" font-weight="700" fill="#4c1d95">per token</text>
+  <text x="222" y="153" text-anchor="middle" font-size="22" font-weight="700" fill="#4c1d95">=</text>
+
+  <!-- terms -->
+  <g fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5">
+    <rect x="236" y="116" width="114" height="62" rx="8"/>
+    <rect x="378" y="116" width="114" height="62" rx="8"/>
+    <rect x="520" y="116" width="114" height="62" rx="8"/>
+    <rect x="662" y="116" width="114" height="62" rx="8"/>
+    <rect x="804" y="116" width="114" height="62" rx="8"/>
+  </g>
+  <g font-size="22" font-weight="700" fill="#4c1d95" text-anchor="middle">
+    <text x="364" y="153">×</text><text x="506" y="153">×</text><text x="648" y="153">×</text><text x="790" y="153">×</text>
+  </g>
+  <g font-size="14" font-weight="700" fill="#1f2937" text-anchor="middle">
+    <text x="293" y="142">2</text>
+    <text x="435" y="142">Layers</text>
+    <text x="577" y="142">KV heads</text>
+    <text x="719" y="142">Dim per head</text>
+    <text x="861" y="142" font-size="13">Bytes per value</text>
+  </g>
+  <g font-size="11" fill="#6b7280" text-anchor="middle">
+    <text x="293" y="163">one K + one V</text>
+    <text x="435" y="163">Transformer layers</text>
+    <text x="577" y="163">attention KV heads</text>
+    <text x="719" y="163">head_dim</text>
+    <text x="861" y="163">set by precision</text>
+  </g>
+
+  <!-- example row -->
+  <rect x="40" y="194" width="168" height="44" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="124" y="213" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">Example</text>
+  <text x="124" y="230" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">Llama-3-70B</text>
+  <g fill="#fffbeb" stroke="#d97706" stroke-width="1.5">
+    <rect x="236" y="194" width="114" height="44" rx="8"/>
+    <rect x="378" y="194" width="114" height="44" rx="8"/>
+    <rect x="520" y="194" width="114" height="44" rx="8"/>
+    <rect x="662" y="194" width="114" height="44" rx="8"/>
+    <rect x="804" y="194" width="114" height="44" rx="8"/>
+  </g>
+  <g font-size="14" fill="#92400e" text-anchor="middle">
+    <text x="293" y="221"><tspan font-weight="700">2</tspan></text>
+    <text x="435" y="221"><tspan font-weight="700">80</tspan> layers</text>
+    <text x="577" y="221"><tspan font-weight="700">8</tspan> (GQA)</text>
+    <text x="719" y="221"><tspan font-weight="700">128</tspan></text>
+    <text x="861" y="221"><tspan font-weight="700">2</tspan> (FP16)</text>
+  </g>
+  <text x="480" y="272" text-anchor="middle" font-size="17" fill="#1f2937">2 × 80 × 8 × 128 × 2 = <tspan font-weight="700">327,680 bytes</tspan> ≈ <tspan font-weight="700" fill="#b91c1c">320 KB / token</tspan></text>
+
+  <!-- Bar chart panel -->
+  <rect x="24" y="306" width="912" height="250" rx="12" fill="#f9fafb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="44" y="332" font-size="15" font-weight="700" fill="#1f2937">KV Cache of one request vs. context length (Llama-3-70B, FP16)</text>
+  <!-- legend -->
+  <rect x="690" y="320" width="22" height="14" rx="3" fill="#e5e7eb" stroke="#6b7280"/>
+  <text x="718" y="332" font-size="12" fill="#374151">GPU memory</text>
+  <rect x="806" y="320" width="22" height="14" rx="3" fill="#3b82f6" stroke="#1d4ed8"/>
+  <text x="834" y="332" font-size="12" fill="#374151">KV Cache usage</text>
+
+  <g font-size="13" fill="#374151" text-anchor="end">
+    <text x="172" y="366">H100 GPU memory</text>
+    <text x="172" y="400">128K tokens</text>
+    <text x="172" y="434">32K tokens</text>
+    <text x="172" y="468">8K tokens</text>
+    <text x="172" y="502">1K tokens</text>
+  </g>
+  <!-- scale: 8 px per GB, origin x=184 -->
+  <rect x="184" y="352" width="640" height="22" rx="3" fill="#e5e7eb" stroke="#6b7280"/>
+  <text x="504" y="368" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">80 GB</text>
+  <rect x="184" y="386" width="320" height="22" rx="3" fill="#3b82f6" stroke="#1d4ed8"/>
+  <rect x="184" y="420" width="80" height="22" rx="3" fill="#3b82f6" stroke="#1d4ed8"/>
+  <rect x="184" y="454" width="20" height="22" rx="3" fill="#3b82f6" stroke="#1d4ed8"/>
+  <rect x="184" y="488" width="3" height="22" fill="#3b82f6" stroke="#1d4ed8"/>
+  <g font-size="13" font-weight="700" fill="#1e3a8a">
+    <text x="514" y="402">≈ 40 GB (half of one GPU)</text>
+    <text x="274" y="436">≈ 10 GB</text>
+    <text x="214" y="470">≈ 2.5 GB</text>
+    <text x="197" y="504">≈ 320 MB</text>
+  </g>
+  <line x1="824" y1="346" x2="824" y2="540" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="832" y="368" font-size="12" fill="#6b7280">1-GPU limit</text>
+
+  <!-- weights note -->
+  <rect x="348" y="424" width="458" height="110" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="362" y="446" font-size="13" font-weight="700" fill="#991b1b">Don't forget: model weights also take GPU memory</text>
+  <text x="362" y="466" font-size="12" fill="#7f1d1d">A 70B model's FP16 weights alone are ~140 GB, more than</text>
+  <text x="362" y="484" font-size="12" fill="#7f1d1d">one 80 GB GPU, so in practice it is deployed on multiple GPUs</text>
+  <text x="362" y="504" font-size="12" fill="#7f1d1d">Only the memory left after the weights can hold KV Cache</text>
+  <text x="362" y="524" font-size="12" fill="#7f1d1d">These numbers are for 1 request; concurrent requests add up</text>
+
+  <!-- takeaway -->
+  <rect x="24" y="572" width="912" height="130" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="480" y="598" text-anchor="middle" font-size="15" font-weight="700" fill="#065f46">KV Cache grows linearly with context length × concurrency.</text>
+  <text x="480" y="618" text-anchor="middle" font-size="15" font-weight="700" fill="#065f46">GPU memory is the most expensive resource, so we need:</text>
+  <g fill="#ffffff" stroke="#10b981" stroke-width="1.5">
+    <rect x="44" y="634" width="150" height="52" rx="8"/>
+    <rect x="212" y="634" width="150" height="52" rx="8"/>
+    <rect x="380" y="634" width="200" height="52" rx="8"/>
+    <rect x="598" y="634" width="150" height="52" rx="8"/>
+    <rect x="766" y="634" width="150" height="52" rx="8"/>
+  </g>
+  <g font-size="14" font-weight="700" fill="#064e3b" text-anchor="middle">
+    <text x="119" y="656">Block management</text>
+    <text x="287" y="656">Prefix reuse</text>
+    <text x="480" y="656">Offload to CPU / storage</text>
+    <text x="673" y="656">Quantization</text>
+    <text x="841" y="656">Fewer KV heads</text>
+  </g>
+  <g font-size="12" fill="#047857" text-anchor="middle">
+    <text x="119" y="675">PagedAttention</text>
+    <text x="287" y="675">one copy per prefix</text>
+    <text x="480" y="675">spill over when GPU is full</text>
+    <text x="673" y="675">FP8: 1 byte per value</text>
+    <text x="841" y="675">GQA / MLA</text>
+  </g>
+</svg>

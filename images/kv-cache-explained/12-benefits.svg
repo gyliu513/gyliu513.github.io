@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/></marker>
+  </defs>
+  <rect width="960" height="600" fill="#ffffff"/>
+  <text xml:space="preserve" x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2937">Figure 12  The benefits (illustration)</text>
+  <text x="480" y="62" text-anchor="middle" font-size="14" fill="#4b5563">Left: what makes up the time to first token (TTFT) of one long-prompt request. Right: the effect on the whole service.</text>
+
+  <!-- LEFT -->
+  <rect x="30" y="80" width="440" height="418" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="250" y="108" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">What makes up TTFT</text>
+  <text x="250" y="128" text-anchor="middle" font-size="12" fill="#b45309">Illustration, not measured data; lengths show relative size only</text>
+
+  <text x="54" y="164" font-size="14" font-weight="700" fill="#7f1d1d">No prefix hit</text>
+  <rect x="54" y="174" width="60" height="38" rx="4" fill="#cbd5e1" stroke="#64748b"/>
+  <text x="84" y="198" text-anchor="middle" font-size="12" fill="#1f2937">Queue</text>
+  <rect x="114" y="174" width="320" height="38" rx="4" fill="#f97316" stroke="#c2410c"/>
+  <text x="274" y="198" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Full Prefill (the whole prompt is computed)</text>
+  <text x="434" y="230" text-anchor="end" font-size="12" fill="#7f1d1d">The first token only appears here</text>
+
+  <text x="54" y="270" font-size="14" font-weight="700" fill="#14532d">90% prefix hit</text>
+  <rect x="54" y="280" width="60" height="38" rx="4" fill="#cbd5e1" stroke="#64748b"/>
+  <text x="84" y="304" text-anchor="middle" font-size="12" fill="#1f2937">Queue</text>
+  <rect x="114" y="280" width="32" height="38" rx="4" fill="#f97316" stroke="#c2410c"/>
+  <rect x="146" y="280" width="288" height="38" rx="4" fill="#eff6ff" stroke="#3b82f6" stroke-dasharray="5,3"/>
+  <text x="290" y="304" text-anchor="middle" font-size="12" fill="#1e3a8a">90% reuses the cached KV directly, no recompute</text>
+  <line x1="130" y1="320" x2="130" y2="328" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="54" y="342" font-size="12" fill="#9a3412">Prefill only</text>
+  <text x="54" y="358" font-size="12" fill="#9a3412">the new 10%</text>
+  <line x1="146" y1="322" x2="146" y2="356" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="154" y="352" font-size="12" fill="#14532d">The first token appears here: much shorter TTFT</text>
+
+  <line x1="54" y1="392" x2="440" y2="392" stroke="#4b5563" stroke-width="1.5" marker-end="url(#ak)"/>
+  <text x="440" y="410" text-anchor="end" font-size="12" fill="#4b5563">Time</text>
+
+  <g font-size="12" fill="#374151">
+    <rect x="54" y="440" width="16" height="14" rx="2" fill="#cbd5e1" stroke="#64748b"/><text x="76" y="452">Queueing</text>
+    <rect x="150" y="440" width="16" height="14" rx="2" fill="#f97316" stroke="#c2410c"/><text x="172" y="452">Prefill compute</text>
+    <rect x="280" y="440" width="16" height="14" rx="2" fill="#eff6ff" stroke="#3b82f6" stroke-dasharray="3,2"/><text x="302" y="452">Cache reuse (skipped)</text>
+  </g>
+
+  <!-- RIGHT -->
+  <g>
+    <rect x="490" y="80" width="440" height="88" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="490" y="80" width="8" height="88" rx="4" fill="#3b82f6"/>
+    <text x="514" y="108" font-size="16" font-weight="700" fill="#1e3a8a">Lower TTFT</text>
+    <text x="514" y="132" font-size="13" fill="#334155">Repeated Prefill is skipped, so the first token comes sooner</text>
+    <text x="514" y="154" font-size="13" fill="#334155">The longer the prefix and the more reuse, the bigger the effect</text>
+
+    <rect x="490" y="178" width="440" height="88" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="490" y="178" width="8" height="88" rx="4" fill="#16a34a"/>
+    <text x="514" y="206" font-size="16" font-weight="700" fill="#14532d">Higher throughput</text>
+    <text x="514" y="230" font-size="13" fill="#334155">GPU compute is no longer spent on repeated work</text>
+    <text x="514" y="252" font-size="13" fill="#334155">The saved compute goes to new requests and new tokens</text>
+
+    <rect x="490" y="276" width="440" height="88" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="490" y="276" width="8" height="88" rx="4" fill="#ca8a04"/>
+    <text x="514" y="304" font-size="16" font-weight="700" fill="#713f12">Lower cost</text>
+    <text x="514" y="328" font-size="13" fill="#334155">The same hardware can serve more requests</text>
+    <text x="514" y="350" font-size="13" fill="#334155">Cost per token drops accordingly</text>
+
+    <rect x="490" y="374" width="440" height="124" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="490" y="374" width="8" height="124" rx="4" fill="#7c3aed"/>
+    <text x="514" y="402" font-size="16" font-weight="700" fill="#4c1d95">Steadier tail latency + better GPU memory use</text>
+    <g font-size="13" fill="#334155">
+      <text x="514" y="426">The same prefix is no longer stored on several replicas,</text>
+      <text x="514" y="444">so GPU memory can hold more requests</text>
+      <text x="514" y="468">Routing also weighs load, so a hot replica does not</text>
+      <text x="514" y="486">slow down tail requests</text>
+    </g>
+  </g>
+
+  <rect x="30" y="516" width="900" height="62" rx="8" fill="#f3f4f6"/>
+  <g font-size="14" fill="#111827" text-anchor="middle">
+    <text x="480" y="541">Note: all of the above is illustrative. <tspan font-weight="700">Actual gains depend on how much prefixes are shared,</tspan></text>
+    <text x="480" y="563"><tspan font-weight="700">prefix length, and load</tspan>; measure with your own workload.</text>
+  </g>
+</svg>
